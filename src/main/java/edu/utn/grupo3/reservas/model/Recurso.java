@@ -1,23 +1,19 @@
 package edu.utn.grupo3.reservas.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
-import lombok.experimental.NonFinal;
 
 
-@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+import java.util.List;
+
+
+
 @Entity
 @Data
-@RequiredArgsConstructor
-public class Recurso {
-
-    @Id
-    @NonNull
-    private Integer id;
+@Table(name = "recursos")
+@NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
+public class Recurso extends ObjetDB {
     @NonNull
     private String nombre;
-    @NonNull
     private String descripcion;
-
 }
