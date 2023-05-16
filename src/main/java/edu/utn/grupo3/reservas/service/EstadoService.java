@@ -2,6 +2,7 @@ package edu.utn.grupo3.reservas.service;
 
 import edu.utn.grupo3.reservas.model.Espacio;
 import edu.utn.grupo3.reservas.model.Estado;
+import edu.utn.grupo3.reservas.model.Recurso;
 import edu.utn.grupo3.reservas.persistence.RepositorioEspacio;
 import edu.utn.grupo3.reservas.persistence.RepositorioEstado;
 import lombok.RequiredArgsConstructor;
@@ -23,5 +24,10 @@ public class EstadoService implements IEstadoService {
         }else{
             return null;
         }
+    }
+
+    @Override
+    public Estado guardar(Estado e) {
+        return repositorio.save(e);
     }
 }
