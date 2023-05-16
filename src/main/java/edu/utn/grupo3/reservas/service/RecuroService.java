@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,5 +23,15 @@ public class RecuroService implements IRecursoService{
         }else{
             return null;
         }
+    }
+
+    @Override
+    public List<Recurso> getTodos() {
+        return repositorio.findAll();
+    }
+
+    @Override
+    public Recurso guardar(Recurso r) {
+        return repositorio.save(r);
     }
 }

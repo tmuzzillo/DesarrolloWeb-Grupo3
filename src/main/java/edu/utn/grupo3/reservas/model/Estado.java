@@ -1,8 +1,6 @@
 package edu.utn.grupo3.reservas.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 
@@ -10,8 +8,6 @@ import lombok.*;
 @Data
 @Table(name = "estados")
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
-public class Estado {
-    @Id
-    private Integer id;
+public class Estado extends ObjetDB{
     private String nombre;
 }

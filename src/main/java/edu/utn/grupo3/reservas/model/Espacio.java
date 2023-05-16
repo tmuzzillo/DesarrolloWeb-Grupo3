@@ -13,15 +13,12 @@ import java.util.List;
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 @Table(name = "espacios")
-public class Espacio {
-    @Id
-    private Integer id;
+public class Espacio extends ObjetDB {
     private String nombre;
     private Integer capacidad;
 
     @ManyToMany
     private List<Recurso> recursos;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "id")
-    private List<Estado> estados;
+    @ManyToOne
+    private Estado estados;
 }
