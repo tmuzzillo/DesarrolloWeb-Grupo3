@@ -4,7 +4,9 @@ import edu.utn.grupo3.reservas.model.Espacio;
 import edu.utn.grupo3.reservas.model.Recurso;
 import edu.utn.grupo3.reservas.service.IRecursoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -29,5 +31,10 @@ public class ControladorRecurso {
     @PostMapping()
     public Recurso guardar(@RequestBody Recurso r){
         return this.service.guardar(r);
+    }
+
+    @GetMapping(params={"page"})
+    public Iterable<Recurso> getTodosPaginado(Pageable p){
+        return this.service.getTodosPaginado(p);
     }
 }
