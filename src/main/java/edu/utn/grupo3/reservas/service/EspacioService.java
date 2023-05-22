@@ -1,7 +1,6 @@
 package edu.utn.grupo3.reservas.service;
 
 import edu.utn.grupo3.reservas.model.Espacio;
-import edu.utn.grupo3.reservas.model.Recurso;
 import edu.utn.grupo3.reservas.persistence.RepositorioEspacio;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

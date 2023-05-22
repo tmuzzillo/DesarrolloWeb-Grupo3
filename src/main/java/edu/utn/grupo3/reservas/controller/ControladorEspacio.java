@@ -1,10 +1,7 @@
 package edu.utn.grupo3.reservas.controller;
 
 import edu.utn.grupo3.reservas.model.Espacio;
-import edu.utn.grupo3.reservas.model.Recurso;
-import edu.utn.grupo3.reservas.service.EspacioService;
 import edu.utn.grupo3.reservas.service.IEspacioService;
-import edu.utn.grupo3.reservas.service.IRecursoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

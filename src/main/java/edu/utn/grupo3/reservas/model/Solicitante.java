@@ -1,23 +1,20 @@
 package edu.utn.grupo3.reservas.model;
-
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-
-
 @Entity
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
-@Table(name = "espacios")
-public class Espacio extends ObjetDB {
+@Table(name = "solicitantes")
+public class Solicitante extends ObjetDB {
     private String nombre;
-    private Integer capacidad;
+    private String apellido;
+    private Integer dni;
 
-    @ManyToMany
-    private List<Recurso> recursos;
     @ManyToOne
-    private EstadoEspacio estadosEspacio;
+    private Rol roles;
 }

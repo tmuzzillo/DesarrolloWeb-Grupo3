@@ -1,14 +1,18 @@
 package edu.utn.grupo3.reservas.persistence;
 
-import edu.utn.grupo3.reservas.model.Estado;
+import edu.utn.grupo3.reservas.model.Rol;
 import jakarta.transaction.Transactional;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 @Transactional
-public interface RepositorioEstado extends CrudRepository<Estado,Integer> {
-    Optional<Estado> findById(Integer id);
+public interface RepositorioRol extends CrudRepository<Rol,Integer> {
+    Optional<Rol> findById(Integer id);
+
+    List<Rol> findAll();
+
 }
