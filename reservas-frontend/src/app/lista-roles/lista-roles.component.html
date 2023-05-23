@@ -1,0 +1,15 @@
+<h2>Lista roles</h2>
+<table class="table table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor= "let rol of roles">
+            <td>{{rol.id}}</td>
+            <td>{{rol.nombre}}</td>    
+        </tr>
+    </tbody>
+</table>

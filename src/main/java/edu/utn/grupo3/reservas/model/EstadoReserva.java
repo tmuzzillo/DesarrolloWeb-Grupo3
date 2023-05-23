@@ -6,8 +6,9 @@ import lombok.*;
 
 @Entity
 @Data
-@Table(name = "estados")
+@Table(name = "estadosReserva")
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
-public class Estado extends ObjetDB{
+public class EstadoReserva extends ObjetDB{
     private String nombre;
+    private String fechaHoraCambio;
 }

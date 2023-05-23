@@ -9,9 +9,9 @@ public interface IEspacioService {
 
     List<Espacio> getTodos();
 
-    Espacio guardar(Espacio r);
+    Espacio guardar(Espacio e);
 
-    Espacio actualizar(Espacio r);
+    Espacio actualizar(Espacio e);
 
     String eliminar(Integer id);
 
