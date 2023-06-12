@@ -17,6 +17,7 @@ public class EspacioService implements IEspacioService {
     @Autowired
     private final RepositorioEspacio repositorio;
 
+
     @Override
     public Espacio get(Integer id) {
         Optional<Espacio> buscado = repositorio.findById(id);
@@ -26,7 +27,6 @@ public class EspacioService implements IEspacioService {
             return null;
         }
     }
-
     @Override
     public List<Espacio> getTodos() {
         return repositorio.findAll();
