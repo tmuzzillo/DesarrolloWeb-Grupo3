@@ -1,6 +1,6 @@
-import { RolService } from '../rol.service';
+import { RolService } from '../service/rol.service';
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import {FormGroup, FormControl, NgForm} from '@angular/forms';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -21,6 +21,11 @@ export class ListaRolesComponent {
   constructor(private rolService: RolService) {
     this.getRolesDetails();
   }
+
+  range = new FormGroup({
+    start: new FormControl<Date | null>(null),
+    end: new FormControl<Date | null>(null),
+  });
 
   register(registerForm: NgForm) {
     this.rolService.registerRol(registerForm.value).subscribe(

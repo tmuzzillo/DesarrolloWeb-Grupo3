@@ -1,0 +1,130 @@
+<div class="container">
+    <div class="card mt-5" style="align-items: center">
+      <h1>Espacio Dashboard</h1>
+    </div>
+    <div class="card mt-5" style="padding: 20px">
+      <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+        <div class="form-group">
+          <label for="name">Nombre del Espacio :</label>
+          <input type="text" #nombre (ngModel)="(nombre)" name="nombre" id="nombre" class="form-control"
+            placeholder="Nombre del Espacio" />
+        </div>
+        <div class="form-group">
+          <label for="name">Capacidad del Espacio :</label>
+          <input type="text" #capacidad (ngModel)="(capacidad)" name="capacidad" id="capacidad" class="form-control"
+            placeholder="Capacidad del Espacio" />
+        </div>
+        <!--
+        <div>
+          <label for="name">Estado del Espacio</label>
+          <select class="form-select" [(ngModel)]="estado_selected" (ngModelChange)="cambiarEstadoEspacio($event)">
+            <option [value]="estadoEspacio.id" *ngFor="let rol of estadoEspacioDetails">
+              {{ estadoEspacio.nombre }}
+              {{ estadoEspacio.capacidad}}
+            </option>
+          </select>
+          Selected value = {{ estado_selected }}
+        </div>
+        -->
+        <div>
+            <label for="name">Recurso requerido</label>
+            <select class="form-select" [(ngModel)]="recurso_selected" (ngModelChange)="cambiarRecurso($event)">
+              <option [value]="recurso.id" *ngFor="let recurso of recursoDetails">
+                {{ recurso.nombre }}
+                {{ recurso.descripcion}}
+              </option>
+            </select>
+            Selected value = {{ recurso_selected }}
+          </div>
+        <div class="form-group">
+          <input type="submit" value="Register" class="btn btn-primary w-100" />
+        </div>
+      </form>
+    </div>
+  
+    <div class="mt-5">
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Capacidad</th>
+            <th>Estado</th>
+            <th>Recurso Selec.</th>
+            <th>Editar</th>
+            <th>Eliminar</th>
+          </tr>
+        </thead>
+        <tbody class="tbody">
+          <tr *ngFor="let espacio of espacioDetails">
+            <td>{{ espacio.id }}</td>
+            <td>{{ espacio.nombre }}</td>
+            <td>{{ espacio.capacidad }}</td>
+            <td>{{ espacio.estadosEspacio }}</td>
+            <td>{{ espacio.recursos }}</td>
+            <td>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                (click)="edit(espacio)">
+                Edit
+              </button>
+            </td>
+            <td>
+              <button type="button" class="btn btn-danger" (click)="deleteEspacio(espacio)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="exampleModal" tabindex="-1" espacioe="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" espacioe="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update Espacio</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #updateForm="ngForm" (ngSubmit)="updateEspacio()">
+            <div class="form-group">
+              <label for="id">Espacio id :</label>
+              <input type="text" disabled #id [(ngModel)]="espacioToUpdate.id" name="id" id="id" class="form-control"
+                placeholder="Espacio id" />
+            </div>
+            <div class="form-group">
+              <label for="name">Espacio Nombre :</label>
+              <input type="text" #name [(ngModel)]="espacioToUpdate.nombre" name="nombre" id="nombre"
+                class="form-control" placeholder="Espacio Nombre" />
+            </div>
+            <div class="form-group">
+              <label for="name">Espacio Capacidad :</label>
+              <input type="text" #name [(ngModel)]="espacioToUpdate.capacidad" name="capacidad" id="capacidad"
+                class="form-control" placeholder="Espacio Capacidad" />
+            </div>
+            <div class="form-group">
+                <label for="name">Espacio Estado:</label>
+                <select multiple name="estadosEspacio" id="estadosEspacio">
+                  <input type="text" #name [(ngModel)]="espacioToUpdate.estadoEspacio" name="estadosEspacio" id="estadosEspacio"
+                    class="form-control" placeholder="Seleccionar el estado del espacio" />
+                </select>
+              </div>
+            <div class="form-group">
+              <label for="name">Espacio Recurso Selec. :</label>
+              <select multiple name="recursos" id="recursos">
+                <input type="text" #name [(ngModel)]="espacioToUpdate.recursos" name="recursos" id="recursos"
+                  class="form-control" placeholder="Seleccionar el recurso requerido" />
+              </select>
+            </div>
+            <div class="form-group">
+              <input type="submit" value="Update" class="btn btn-primary w-100" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>

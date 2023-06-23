@@ -1,25 +1,48 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ListaRolesComponent } from './lista-roles/lista-roles.component';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { FormsModule } from '@angular/forms';
+import { NgIf, JsonPipe } from '@angular/common';
+import { FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { MatFormFieldModule} from '@angular/material/form-field';
+import { MatSelectModule} from '@angular/material/select';
+import { MatInputModule} from '@angular/material/input';
+import { MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { ListaSolicitantesComponent } from './lista-solicitantes/lista-solicitantes.component';
+import { ListaRecursosComponent } from './lista-recursos/lista-recursos.component';
+import { ListaEspaciosComponent } from './lista-espacios/lista-espacios.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     ListaRolesComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    ListaSolicitantesComponent,
+    ListaRecursosComponent,
+    ListaEspaciosComponent
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    NgIf,
+    JsonPipe,
   ],
   providers: [],
   bootstrap: [AppComponent]

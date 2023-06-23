@@ -1,6 +1,8 @@
 package edu.utn.grupo3.reservas.service;
 
 import edu.utn.grupo3.reservas.model.Solicitante;
+import edu.utn.grupo3.reservas.model.Solicitante;
+import edu.utn.grupo3.reservas.persistence.RepositorioSolicitante;
 import edu.utn.grupo3.reservas.persistence.RepositorioSolicitante;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,36 +15,30 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SolicitanteService implements ISolicitanteService {
     @Autowired
-    private final RepositorioSolicitante repositorio;
+    private RepositorioSolicitante solicitanteRepository;
 
     @Override
-    public Solicitante get(Integer id) {
-        Optional<Solicitante> buscado = repositorio.findById(id);
-        if (buscado.isPresent()) {
-            return buscado.get();
-        } else {
-            return null;
-        }
+    public Solicitante registerSolicitante(Solicitante solicitante) {
+        return solicitanteRepository.save(solicitante);
+    }
+    @Override
+    public List<Solicitante> getSolicitantes(){
+        return (List<Solicitante>) solicitanteRepository.findAll();
     }
 
     @Override
-    public List<Solicitante> getTodos() {
-        return repositorio.findAll();
-    }
-
-    @Override
-    public Solicitante guardar(Solicitante s) {
-        return repositorio.save(s);
-    }
-
-    @Override
-    public Solicitante actualizar(Solicitante s) {
-        return repositorio.save(s);
-    }
-
-    @Override
-    public String eliminar(Integer id) {
-        repositorio.deleteById(id);
+    public String deleteSolicitante(Integer id) {
+        solicitanteRepository.deleteById(id);
         return "Se ha eliminado correctamente";
+    }
+    @Override
+    public Solicitante updateSolicitante(Solicitante solicitante) {
+        Integer id = solicitante.getId();
+        Solicitante r = solicitanteRepository.findById(id).get();
+        r.setNombre(solicitante.getNombre());
+        r.setApellido(solicitante.getApellido());
+        r.setDni(solicitante.getDni());
+        r.setRoles(solicitante.getRoles());
+        return solicitanteRepository.save(r);
     }
 }

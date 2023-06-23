@@ -1,17 +1,16 @@
 package edu.utn.grupo3.reservas.service;
 
 import edu.utn.grupo3.reservas.model.Solicitante;
+import edu.utn.grupo3.reservas.model.Solicitante;
 
 import java.util.List;
 
 public interface ISolicitanteService {
-    Solicitante get(Integer id);
+    Solicitante registerSolicitante(Solicitante e);
 
-    List<Solicitante> getTodos();
+    Solicitante updateSolicitante(Solicitante e);
 
-    Solicitante guardar(Solicitante s);
+    String deleteSolicitante(Integer id);
 
-    Solicitante actualizar(Solicitante s);
-
-    String eliminar(Integer id);
+    List<Solicitante> getSolicitantes();
 }

@@ -1,0 +1,120 @@
+<div class="container">
+  <div class="card mt-5" style="align-items: center">
+    <h1>Solicitante Dashboard</h1>
+  </div>
+  <div class="card mt-5" style="padding: 20px">
+    <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+      <div class="form-group">
+        <label for="name">Nombre del Solicitante :</label>
+        <input type="text" #nombre (ngModel)="(nombre)" name="nombre" id="nombre" class="form-control"
+          placeholder="Nombre del Solicitante" />
+      </div>
+      <div class="form-group">
+        <label for="name">Apellido del Solicitante :</label>
+        <input type="text" #apellido (ngModel)="(apellido)" name="apellido" id="apellido" class="form-control"
+          placeholder="Apellido del Solicitante" />
+      </div>
+      <div class="form-group">
+        <label for="name">DNI del Solicitante :</label>
+        <input type="text" #dni (ngModel)="(dni)" name="dni" id="dni" class="form-control"
+          placeholder="DNI del Solicitante" />
+      </div>
+      <div>
+        <label for="name">Rol del Solicitante</label>
+        <select class="form-select" [(ngModel)]="selected" (ngModelChange)="cambiarRol($event)">
+          <option [value]="rol.id" *ngFor="let rol of rolDetails">
+            {{ rol.nombre }}
+          </option>
+        </select>
+        Selected value = {{ selected }}
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Register" class="btn btn-primary w-100" />
+      </div>
+    </form>
+  </div>
+
+  <div class="mt-5">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>DNI</th>
+          <th>Rol</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody class="tbody">
+        <tr *ngFor="let solicitante of solicitanteDetails">
+          <td>{{ solicitante.id }}</td>
+          <td>{{ solicitante.nombre }}</td>
+          <td>{{ solicitante.apellido }}</td>
+          <td>{{ solicitante.dni }}</td>
+          <td>{{ solicitante.roles }}</td>
+          <td>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+              (click)="edit(solicitante)">
+              Edit
+            </button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger" (click)="deleteSolicitante(solicitante)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" solicitantee="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" solicitantee="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Solicitante</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #updateForm="ngForm" (ngSubmit)="updateSolicitante()">
+          <div class="form-group">
+            <label for="id">Solicitante id :</label>
+            <input type="text" disabled #id [(ngModel)]="solicitanteToUpdate.id" name="id" id="id" class="form-control"
+              placeholder="Solicitante id" />
+          </div>
+          <div class="form-group">
+            <label for="name">Solicitante Nombre :</label>
+            <input type="text" #name [(ngModel)]="solicitanteToUpdate.nombre" name="nombre" id="nombre"
+              class="form-control" placeholder="Solicitante Nombre" />
+          </div>
+          <div class="form-group">
+            <label for="name">Solicitante Apellido :</label>
+            <input type="text" #name [(ngModel)]="solicitanteToUpdate.apellido" name="apellido" id="apellido"
+              class="form-control" placeholder="Solicitante Apellido" />
+          </div>
+          <div class="form-group">
+            <label for="name">Solicitante DNI :</label>
+            <input type="text" #name [(ngModel)]="solicitanteToUpdate.dni" name="dni" id="dni" class="form-control"
+              placeholder="Solicitante DNI" />
+          </div>
+          <div class="form-group">
+            <label for="name">Solicitante Rol :</label>
+            <select multiple name="roles" id="roles">
+              <input type="text" #name [(ngModel)]="solicitanteToUpdate.roles" name="roles" id="roles"
+                class="form-control" placeholder="Seleccionar el rol" />
+            </select>
+          </div>
+          <div class="form-group">
+            <input type="submit" value="Update" class="btn btn-primary w-100" />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
