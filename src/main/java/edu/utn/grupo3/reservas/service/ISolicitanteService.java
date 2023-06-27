@@ -9,7 +9,7 @@ import java.util.List;
 public interface ISolicitanteService {
     Solicitante registerSolicitante(SolicitanteDto e);
 
-    Solicitante updateSolicitante(Solicitante e);
+    Solicitante updateSolicitante(SolicitanteDto e);
 
     String deleteSolicitante(Integer id);
 

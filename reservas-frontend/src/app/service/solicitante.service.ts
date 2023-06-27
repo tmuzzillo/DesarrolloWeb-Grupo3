@@ -23,6 +23,7 @@ export class SolicitanteService {
 
   //Este metodo actualiza un solicitante
   updateSolicitantes(solicitante:any){
+console.log(solicitante)
     return this.http.put(this.baseURL + '/updateSolicitantes', solicitante);
   }
   

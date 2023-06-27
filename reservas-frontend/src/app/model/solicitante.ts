@@ -5,5 +5,5 @@ export class Solicitante {
     nombre:string;
     apellido:string;
     dni:number;
-    roles:Rol;
+    roles:number;
 }

@@ -103,11 +103,12 @@
               placeholder="Solicitante DNI" />
           </div>
           <div class="form-group">
-            <label for="name">Solicitante Rol :</label>
-            <select multiple name="roles" id="roles">
-              <input type="text" #name [(ngModel)]="solicitanteToUpdate.roles" name="roles" id="roles"
-                class="form-control" placeholder="Seleccionar el rol" />
-            </select>
+            <label for="name">Rol del Solicitante</label>
+        <select class="form-select" [(ngModel)]="solicitanteToUpdate.roles" (change)="cambiarRol($event)" name="roles" id="roles">
+          <option [value]="rol.id" *ngFor="let rol of rolDetails">
+            {{ rol.nombre }}
+          </option>
+        </select>
           </div>
           <div class="form-group">
             <input type="submit" value="Update" class="btn btn-primary w-100" />

@@ -18,8 +18,8 @@ public class ControladorSolicitante {
     private SolicitanteService SolicitanteService;
 
     @PostMapping("/registerSolicitante")
-    public Solicitante registerSolicitante(@RequestBody SolicitanteDto SolicitanteDto) {
-        return SolicitanteService.registerSolicitante(SolicitanteDto);
+    public Solicitante registerSolicitante(@RequestBody SolicitanteDto solicitanteDto) {
+        return SolicitanteService.registerSolicitante(solicitanteDto);
     }
 
     @GetMapping("/getSolicitantes")
@@ -33,7 +33,7 @@ public class ControladorSolicitante {
     }
 
     @PutMapping("/updateSolicitantes")
-    public Solicitante updateSolicitante(@RequestBody Solicitante Solicitante) {
-        return  SolicitanteService.updateSolicitante(Solicitante);
+    public Solicitante updateSolicitante(@RequestBody SolicitanteDto solicitanteDto) {
+        return  SolicitanteService.updateSolicitante(solicitanteDto);
     }
 }
