@@ -1,91 +1,97 @@
 <div class="container">
-    <div class="card mt-5" style="align-items:center">
-      <h1 style="padding-top: 20px;">Rol Dashboard</h1>
-    </div>
-    
-    <div class="card mt-5" style="padding: 20px;">
-      <div>
-        <mat-form-field>
-          <mat-label>Enter a date range</mat-label>
-          <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
-            <input matStartDate formControlName="start" placeholder="Start date">
-            <input matEndDate formControlName="end" placeholder="End date">
-          </mat-date-range-input>
-          <mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint>
-          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-          <mat-date-range-picker #picker></mat-date-range-picker>
-        
-          <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
-          <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-        </mat-form-field>
-        
-        <p>Selected range: {{range.value | json}}</p>
-      </div>
+  <div class="card mt-5" style="align-items:center">
+    <h1 style="padding-top: 20px;">Rol Dashboard</h1>
+  </div>
 
-      <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
-        <div class="form-group">
-          <label for="name">Nombre del Rol :</label>
-          <input type="text" #nombre (ngModel)="nombre" name="nombre" id="nombre" class="form-control" placeholder="Nombre del Rol">
-        </div>
-        <div class="form-group">
-          <input type="submit" value="Register" class="btn btn-primary w-100">
-        </div>
-      </form>
+  <div class="card mt-5" style="padding: 20px;">
+    <div>
+      <mat-form-field class="example-full-width">
+        <mat-label>Choose a date</mat-label>
+        <input matInput [min]="minDate" [max]="maxDate" [matDatepickerFilter]="myFilter" [matDatepicker]="picker">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <!-- 
+      <mat-form-field appearance="outline">
+        <mat-label>Chose a initial time</mat-label>
+        <input type="text"
+        matInput
+        [ngxMatTimepicker]="timepicker"
+        format="24"
+        [required]="required"
+        readonly
+        [formControl]="formControlItem">
+      </mat-form-field>
+      -->
     </div>
-  
-    <div class="mt-5">
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Editar</th>
-            <th>Eliminar</th>
-          </tr>
-        </thead>
-        <tbody class="tbody">
-          <tr *ngFor="let rol of rolDetails">
-            <td>{{rol.id}}</td>
-            <td>{{rol.nombre}}</td>
-            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                (click)="edit(rol)">Edit</button></td>
-            <td><button type="button" class="btn btn-danger" (click)="deleteRol(rol)">Delete</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+
+    <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+      <div class="form-group">
+        <label for="name">Nombre del Rol :</label>
+        <input type="text" #nombre (ngModel)="nombre" name="nombre" id="nombre" class="form-control"
+          placeholder="Nombre del Rol">
+      </div>
+      <div class="form-group">
+        <input type="submit" value="Register" class="btn btn-primary w-100">
+      </div>
+    </form>
   </div>
-  
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Update Rol</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form #updateForm="ngForm" (ngSubmit)="updateRol()">
-            <div class="form-group">
-              <label for="id">Rol id :</label>
-              <input type="text" disabled #id [(ngModel)]="rolToUpdate.id" name="id" id="id"
-                class="form-control" placeholder="Rol id">
-            </div>
-            <div class="form-group">
-              <label for="name">Rol Nombre :</label>
-              <input type="text" #name [(ngModel)]="rolToUpdate.nombre" name="nombre" id="nombre" class="form-control"
-                placeholder="Rol Nombre">
-            </div>
-            <div class="form-group">
-              <input type="submit" value="Update" class="btn btn-primary w-100">
-            </div>
-          </form>
-        </div>
+
+  <div class="mt-5">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody class="tbody">
+        <tr *ngFor="let rol of rolDetails">
+          <td>{{rol.id}}</td>
+          <td>{{rol.nombre}}</td>
+          <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+              (click)="edit(rol)">Edit</button></td>
+          <td><button type="button" class="btn btn-danger" (click)="deleteRol(rol)">Delete</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Rol</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #updateForm="ngForm" (ngSubmit)="updateRol()">
+          <div class="form-group">
+            <label for="id">Rol id :</label>
+            <input type="text" disabled #id [(ngModel)]="rolToUpdate.id" name="id" id="id" class="form-control"
+              placeholder="Rol id">
+          </div>
+          <div class="form-group">
+            <label for="name">Rol Nombre :</label>
+            <input type="text" #name [(ngModel)]="rolToUpdate.nombre" name="nombre" id="nombre" class="form-control"
+              placeholder="Rol Nombre">
+          </div>
+          <div class="form-group">
+            <input type="submit" value="Update" class="btn btn-primary w-100">
+          </div>
+        </form>
       </div>
     </div>
   </div>
+</div>
 
 <!--
 <h2>Lista roles</h2>
