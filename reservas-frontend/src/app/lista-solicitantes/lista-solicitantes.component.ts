@@ -15,18 +15,22 @@ import { Rol } from '../model/rol'
 export class ListaSolicitantesComponent {
   title = 'solicitante dashboard';
 
-  selected: string = '';
+  selected: string = 'bro';
 
   listaSol: Rol[] = [];
   
   rolDetails = null as any;
   solicitanteDetails = null as any;
+  rol={
+    id:"",
+    nombre:"",
+  }
   solicitanteToUpdate = {
     id:"",
     nombre:"",
     apellido:"",
     dni:"",
-    roles:""
+    roles:"",
   }
 
   constructor(private solicitanteService: SolicitanteService, private rolService: RolService) {
@@ -37,7 +41,7 @@ export class ListaSolicitantesComponent {
   cambiarRol(e){
     console.log(e.target.value)
     this.selected =e.target.value;
-  }
+}
 
   getRolesDetails() {
     this.rolService.getRoles().subscribe(
