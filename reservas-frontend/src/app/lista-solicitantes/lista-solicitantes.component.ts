@@ -127,11 +127,13 @@ export class ListaSolicitantesComponent {
         this.solicitanteService.updateSolicitantes(this.solicitanteToUpdate).subscribe(
           (resp) => {
             console.log(resp);
+            window.location.reload();
           },
           (err) => {
             console.log(err);
           }
-        );
+          
+        )
         Swal.fire('Saved!', '', 'success')
       } else if (result.isDenied) {
         Swal.fire('Changes are not saved', '', 'info')

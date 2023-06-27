@@ -39,13 +39,13 @@ solicitante.setRoles(rolesRepository.findById(solicitanteDto.getRoles()).get());
         return "Se ha eliminado correctamente";
     }
     @Override
-    public Solicitante updateSolicitante(Solicitante solicitante) {
+    public Solicitante updateSolicitante(SolicitanteDto solicitante) {
         Integer id = solicitante.getId();
         Solicitante r = solicitanteRepository.findById(id).get();
         r.setNombre(solicitante.getNombre());
         r.setApellido(solicitante.getApellido());
         r.setDni(solicitante.getDni());
-        r.setRoles(solicitante.getRoles());
+        r.setRoles(rolesRepository.findById(solicitante.getRoles()).get());
         return solicitanteRepository.save(r);
     }
 }
