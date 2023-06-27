@@ -1,8 +1,13 @@
 package edu.utn.grupo3.reservas.service;
 
 import edu.utn.grupo3.reservas.model.Solicitante;
+import edu.utn.grupo3.reservas.model.Solicitante;
+import edu.utn.grupo3.reservas.model.view.SolicitanteDto;
+import edu.utn.grupo3.reservas.persistence.RepositorioRol;
+import edu.utn.grupo3.reservas.persistence.RepositorioSolicitante;
 import edu.utn.grupo3.reservas.persistence.RepositorioSolicitante;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,36 +18,34 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class SolicitanteService implements ISolicitanteService {
     @Autowired
-    private final RepositorioSolicitante repositorio;
-
+    private RepositorioSolicitante solicitanteRepository;
+    @Autowired
+    private RepositorioRol rolesRepository;
+    private final ModelMapper mapper = new ModelMapper();
     @Override
-    public Solicitante get(Integer id) {
-        Optional<Solicitante> buscado = repositorio.findById(id);
-        if (buscado.isPresent()) {
-            return buscado.get();
-        } else {
-            return null;
-        }
+    public Solicitante registerSolicitante(SolicitanteDto solicitanteDto) {
+Solicitante solicitante = mapper.map(solicitanteDto, Solicitante.class);
+solicitante.setRoles(rolesRepository.findById(solicitanteDto.getRoles()).get());
+        return solicitanteRepository.save(solicitante);
+    }
+    @Override
+    public List<Solicitante> getSolicitantes(){
+        return (List<Solicitante>) solicitanteRepository.findAll();
     }
 
     @Override
-    public List<Solicitante> getTodos() {
-        return repositorio.findAll();
-    }
-
-    @Override
-    public Solicitante guardar(Solicitante s) {
-        return repositorio.save(s);
-    }
-
-    @Override
-    public Solicitante actualizar(Solicitante s) {
-        return repositorio.save(s);
-    }
-
-    @Override
-    public String eliminar(Integer id) {
-        repositorio.deleteById(id);
+    public String deleteSolicitante(Integer id) {
+        solicitanteRepository.deleteById(id);
         return "Se ha eliminado correctamente";
+    }
+    @Override
+    public Solicitante updateSolicitante(Solicitante solicitante) {
+        Integer id = solicitante.getId();
+        Solicitante r = solicitanteRepository.findById(id).get();
+        r.setNombre(solicitante.getNombre());
+        r.setApellido(solicitante.getApellido());
+        r.setDni(solicitante.getDni());
+        r.setRoles(solicitante.getRoles());
+        return solicitanteRepository.save(r);
     }
 }

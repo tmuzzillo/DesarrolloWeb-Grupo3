@@ -1,5 +1,6 @@
 package edu.utn.grupo3.reservas.persistence;
 
+import edu.utn.grupo3.reservas.model.Espacio;
 import edu.utn.grupo3.reservas.model.Rol;
 import jakarta.transaction.Transactional;
 import org.springframework.data.repository.CrudRepository;
@@ -11,8 +12,5 @@ import java.util.Optional;
 @Repository
 @Transactional
 public interface RepositorioRol extends CrudRepository<Rol,Integer> {
-    Optional<Rol> findById(Integer id);
-
     List<Rol> findAll();
-
 }

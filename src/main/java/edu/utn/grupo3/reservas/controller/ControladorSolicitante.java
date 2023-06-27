@@ -1,43 +1,39 @@
 package edu.utn.grupo3.reservas.controller;
 
 import edu.utn.grupo3.reservas.model.Solicitante;
-import edu.utn.grupo3.reservas.model.Recurso;
-import edu.utn.grupo3.reservas.service.ISolicitanteService;
-import edu.utn.grupo3.reservas.service.IRecursoService;
+import edu.utn.grupo3.reservas.model.view.SolicitanteDto;
+import edu.utn.grupo3.reservas.service.SolicitanteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/solicitantes")
+@RequestMapping("")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200/")
 public class ControladorSolicitante {
+    @Autowired
+    private SolicitanteService SolicitanteService;
 
-    private final ISolicitanteService service;
-
-    @GetMapping("/{ID}")
-    public Solicitante get(@PathVariable("ID") Integer id) {
-        return this.service.get(id);
+    @PostMapping("/registerSolicitante")
+    public Solicitante registerSolicitante(@RequestBody SolicitanteDto SolicitanteDto) {
+        return SolicitanteService.registerSolicitante(SolicitanteDto);
     }
 
-    @GetMapping("/todos")
-    public List<Solicitante> getTodos() {
-        return this.service.getTodos();
+    @GetMapping("/getSolicitantes")
+    public List<Solicitante> getSolicitantes(){
+        return SolicitanteService.getSolicitantes();
     }
 
-    @PostMapping()
-    public Solicitante guardar(@RequestBody Solicitante r) {
-        return this.service.guardar(r);
+    @DeleteMapping("/deleteSolicitante")
+    public void deleteSolicitante(@RequestParam Integer id) {
+        SolicitanteService.deleteSolicitante(id);
     }
 
-    @PutMapping("/{ID}")
-    public Solicitante actualizar(@PathVariable("ID") Integer id, @RequestBody Solicitante r) {
-        return this.service.actualizar(r);
-    }
-
-    @DeleteMapping("/{ID}")
-    public String eliminar(@PathVariable("ID") Integer id) {
-        return this.service.eliminar(id);
+    @PutMapping("/updateSolicitantes")
+    public Solicitante updateSolicitante(@RequestBody Solicitante Solicitante) {
+        return  SolicitanteService.updateSolicitante(Solicitante);
     }
 }

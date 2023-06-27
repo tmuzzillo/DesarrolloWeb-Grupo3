@@ -1,17 +1,14 @@
 package edu.utn.grupo3.reservas.service;
-
 import edu.utn.grupo3.reservas.model.Rol;
 
 import java.util.List;
 
 public interface IRolService {
-    public Rol get(Integer id);
+    Rol registerRol(Rol e);
 
-    List<Rol> getTodos();
+    Rol updateRol(Rol e);
 
-    Rol guardar(Rol r);
+    String deleteRol(Integer id);
 
-    Rol actualizar(Rol r);
-
-    String eliminar(Integer id);
+    List<Rol> getRoles();
 }
