@@ -15,7 +15,7 @@ import { Rol } from '../model/rol'
 export class ListaSolicitantesComponent {
   title = 'solicitante dashboard';
 
-  selected: string = 'bro';
+  selected: string = '';
 
   listaSol: Rol[] = [];
   
