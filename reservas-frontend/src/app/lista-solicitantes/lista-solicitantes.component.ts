@@ -21,12 +21,16 @@ export class ListaSolicitantesComponent {
   
   rolDetails = null as any;
   solicitanteDetails = null as any;
+  rol={
+    id:"",
+    nombre:"",
+  }
   solicitanteToUpdate = {
     id:"",
     nombre:"",
     apellido:"",
     dni:"",
-    roles:""
+    roles:"",
   }
 
   constructor(private solicitanteService: SolicitanteService, private rolService: RolService) {
@@ -37,7 +41,7 @@ export class ListaSolicitantesComponent {
   cambiarRol(e){
     console.log(e.target.value)
     this.selected =e.target.value;
-  }
+}
 
   getRolesDetails() {
     this.rolService.getRoles().subscribe(
@@ -123,11 +127,13 @@ export class ListaSolicitantesComponent {
         this.solicitanteService.updateSolicitantes(this.solicitanteToUpdate).subscribe(
           (resp) => {
             console.log(resp);
+            window.location.reload();
           },
           (err) => {
             console.log(err);
           }
-        );
+          
+        )
         Swal.fire('Saved!', '', 'success')
       } else if (result.isDenied) {
         Swal.fire('Changes are not saved', '', 'info')

@@ -2,9 +2,12 @@ package edu.utn.grupo3.reservas.service;
 
 import edu.utn.grupo3.reservas.model.Solicitante;
 import edu.utn.grupo3.reservas.model.Solicitante;
+import edu.utn.grupo3.reservas.model.view.SolicitanteDto;
+import edu.utn.grupo3.reservas.persistence.RepositorioRol;
 import edu.utn.grupo3.reservas.persistence.RepositorioSolicitante;
 import edu.utn.grupo3.reservas.persistence.RepositorioSolicitante;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +19,13 @@ import java.util.Optional;
 public class SolicitanteService implements ISolicitanteService {
     @Autowired
     private RepositorioSolicitante solicitanteRepository;
-
+    @Autowired
+    private RepositorioRol rolesRepository;
+    private final ModelMapper mapper = new ModelMapper();
     @Override
-    public Solicitante registerSolicitante(Solicitante solicitante) {
+    public Solicitante registerSolicitante(SolicitanteDto solicitanteDto) {
+Solicitante solicitante = mapper.map(solicitanteDto, Solicitante.class);
+solicitante.setRoles(rolesRepository.findById(solicitanteDto.getRoles()).get());
         return solicitanteRepository.save(solicitante);
     }
     @Override
@@ -32,13 +39,13 @@ public class SolicitanteService implements ISolicitanteService {
         return "Se ha eliminado correctamente";
     }
     @Override
-    public Solicitante updateSolicitante(Solicitante solicitante) {
+    public Solicitante updateSolicitante(SolicitanteDto solicitante) {
         Integer id = solicitante.getId();
         Solicitante r = solicitanteRepository.findById(id).get();
         r.setNombre(solicitante.getNombre());
         r.setApellido(solicitante.getApellido());
         r.setDni(solicitante.getDni());
-        r.setRoles(solicitante.getRoles());
+        r.setRoles(rolesRepository.findById(solicitante.getRoles()).get());
         return solicitanteRepository.save(r);
     }
 }

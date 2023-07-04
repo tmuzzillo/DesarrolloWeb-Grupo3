@@ -1,6 +1,7 @@
 package edu.utn.grupo3.reservas.controller;
 
 import edu.utn.grupo3.reservas.model.Solicitante;
+import edu.utn.grupo3.reservas.model.view.SolicitanteDto;
 import edu.utn.grupo3.reservas.service.SolicitanteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,8 @@ public class ControladorSolicitante {
     private SolicitanteService SolicitanteService;
 
     @PostMapping("/registerSolicitante")
-    public Solicitante registerSolicitante(@RequestBody Solicitante Solicitante) {
-        return SolicitanteService.registerSolicitante(Solicitante);
+    public Solicitante registerSolicitante(@RequestBody SolicitanteDto solicitanteDto) {
+        return SolicitanteService.registerSolicitante(solicitanteDto);
     }
 
     @GetMapping("/getSolicitantes")
@@ -32,7 +33,7 @@ public class ControladorSolicitante {
     }
 
     @PutMapping("/updateSolicitantes")
-    public Solicitante updateSolicitante(@RequestBody Solicitante Solicitante) {
-        return  SolicitanteService.updateSolicitante(Solicitante);
+    public Solicitante updateSolicitante(@RequestBody SolicitanteDto solicitanteDto) {
+        return  SolicitanteService.updateSolicitante(solicitanteDto);
     }
 }
