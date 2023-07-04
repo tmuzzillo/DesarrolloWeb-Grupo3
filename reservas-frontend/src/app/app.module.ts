@@ -17,6 +17,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { ListaSolicitantesComponent } from './lista-solicitantes/lista-solicitantes.component';
 import { ListaRecursosComponent } from './lista-recursos/lista-recursos.component';
 import { ListaEspaciosComponent } from './lista-espacios/lista-espacios.component';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import { ListaEspaciosComponent } from './lista-espacios/lista-espacios.componen
     MatNativeDateModule,
     NgIf,
     JsonPipe,
+    NgxMaterialTimepickerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

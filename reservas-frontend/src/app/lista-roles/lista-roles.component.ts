@@ -12,6 +12,10 @@ import Swal from 'sweetalert2';
 export class ListaRolesComponent {
   title = 'rol dashboard';
 
+  time = '6:00 am';
+  minDate: Date;
+  maxDate: Date;
+
   rolDetails = null as any;
   rolToUpdate = {
     id:"",
@@ -20,12 +24,18 @@ export class ListaRolesComponent {
 
   constructor(private rolService: RolService) {
     this.getRolesDetails();
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const currentDay = new Date().getDate();
+    this.minDate = new Date(currentYear - 0, currentMonth, currentDay);
+    this.maxDate = new Date(currentYear + 31, 5, 20);
   }
 
-  range = new FormGroup({
-    start: new FormControl<Date | null>(null),
-    end: new FormControl<Date | null>(null),
-  });
+  myFilter = (d: Date | null): boolean => {
+    const day = (d || new Date()).getDay();
+    // Prevent Saturday and Sunday from being selected.
+    return day !== 0 && day !== 6;
+  };
 
   register(registerForm: NgForm) {
     this.rolService.registerRol(registerForm.value).subscribe(
