@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 export class ListaRolesComponent {
   title = 'rol dashboard';
 
+  time = '6:00 am';
   minDate: Date;
   maxDate: Date;
 
