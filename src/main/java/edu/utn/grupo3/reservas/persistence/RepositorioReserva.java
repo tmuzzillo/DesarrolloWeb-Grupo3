@@ -14,4 +14,6 @@ public interface RepositorioReserva extends CrudRepository<Reserva,Integer> {
     Optional<Reserva> findById(Integer id);
 
     List<Reserva> findAll();
+
+    List<Reserva> findByFecha(String fecha);
 }

@@ -1,8 +1,11 @@
 package edu.utn.grupo3.reservas.controller;
 
+import edu.utn.grupo3.reservas.exceptions.ReservaConflictException;
 import edu.utn.grupo3.reservas.model.Reserva;
 import edu.utn.grupo3.reservas.service.IReservaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,8 +28,8 @@ public class ControladorReserva {
     }
 
     @PostMapping()
-    public Reserva guardar(@RequestBody Reserva r) {
-        return this.service.guardar(r);
+    public Reserva guardar(@RequestBody Reserva r) throws ReservaConflictException {
+         return this.service.guardar(r);
     }
 
     @PutMapping("/{ID}")
