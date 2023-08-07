@@ -1,0 +1,117 @@
+<div class="container">
+    <div class="card mt-5" style="align-items:center">
+        <h1 style="padding-top: 20px;">Reserva Dashboard</h1>
+    </div>
+    <div style="align-items:baseline; margin-top: 30px">
+        <button mat-raised-button color="primary" data-toggle="modal" data-target="#exampleModal">Nueva Reserva</button>
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+    data-backdrop="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Nueva Reserva</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card mt-3" style="padding: 20px">
+                    <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+                        <div class="form-group">
+                            <label for="name">Fecha :</label>
+                            <input type="text" #fecha (ngModel)="(fecha)" name="fecha" id="fecha" class="form-control"
+                                placeholder="Fecha de la Reserva" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Hora Desde :</label>
+                            <input type="text" #horaDesde (ngModel)="(horaDesde)" name="horaDesde" id="horaDesde"
+                                class="form-control" placeholder="Hora desde la Reserva" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Hora Hasta :</label>
+                            <input type="text" #horaHasta (ngModel)="(horaHasta)" name="horaHasta" id="horaHasta"
+                                class="form-control" placeholder="Hora final de la Reserva" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Cantidad de Reserva :</label>
+                            <input type="text" #cantidadReserva (ngModel)="(cantidadReserva)" name="cantidadReserva"
+                                id="cantidadReserva" class="form-control"
+                                placeholder="Cantidad de personas para la reserva" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Motivo de reserva:</label>
+                            <input type="text" #motivoReserva (ngModel)="(motivoReserva)" name="motivoReserva"
+                                id="motivoReserva" class="form-control" placeholder="Motivo de la reserva" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">fechaHoraReserva</label>
+                            <input type="text" #fechaHoraReserva (ngModel)="(fechaHoraReserva)" name="fechaHoraReserva"
+                                id="fechaHoraReserva" class="form-control" placeholder="Fecha y hora de reserva" />
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Solicitante que reserva</label>
+                            <select class="form-select" [(ngModel)]="selected" (change)="cambiarSolicitante($event)"
+                                name="solictante" id="solicitantes">
+                                <option hidden value="" disabled selected>Selecionar un solicitante</option>
+                                <option [value]="solicitante.id" *ngFor="let solicitante of solicitanteDetails">
+                                    {{ solicitante.nombre }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Espacio a reservar</label>
+                            <select class="form-select" [(ngModel)]="selected" (change)="cambiarEspacio($event)"
+                                name="espacio" id="espacios">
+                                <option hidden value="" disabled selected>Selecionar un espacio</option>
+                                <option [value]="espacio.id" *ngFor="let espacio of espacioDetails">
+                                    {{ espacio.nombre }}
+                                </option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Register</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="mt-5" style="align-items:center">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>fecha</th>
+                    <th>Hora Desde</th>
+                    <th>Hora Hasta</th>
+                    <th>FechaHora Reserva</th>
+                    <th>Motivo</th>
+                    <th>Cantidad</th>
+                    <th>Editar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody class="tbody">
+                <tr *ngFor="let reserva of reservaDetails">
+                    <td>{{reserva.id}}</td>
+                    <td>{{reserva.fecha}}</td>
+                    <td>{{reserva.horaDesde}}</td>
+                    <td>{{reserva.horaHasta}}</td>
+                    <td>{{reserva.cantidadReserva}}</td>
+                    <td>{{reserva.motivo}}</td>
+                    <td>{{reserva.fechaHoraReserva}}</td>
+                    <td>{{reserva.reservas.nombre}}</td>
+                    <td>{{reserva.espacios.nombre}}</td>
+                    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+                            (click)="edit(reserva)">Edit</button></td>
+                    <td><button type="button" class="btn btn-danger" (click)="deleteReserva(reserva)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -10,7 +10,7 @@ export class RecursoService {
   //Esta URL obtiene el listado de todos los recursoes en el back
   private baseURL = "http://localhost:8080";
 
-  //Este metodo obtiene los recursoes
+  //Este metodo obtiene los recursos
   getRecursos(){
     return this.http.get(this.baseURL+"/getRecursos");
   }

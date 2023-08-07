@@ -23,6 +23,7 @@ import { ListaSolicitantesComponent } from './lista-solicitantes/lista-solicitan
 import { ListaRecursosComponent } from './lista-recursos/lista-recursos.component';
 import { ListaEspaciosComponent } from './lista-espacios/lista-espacios.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { ListaReservasComponent } from './lista-reservas/lista-reservas.component';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     FooterComponent,
     ListaSolicitantesComponent,
     ListaRecursosComponent,
-    ListaEspaciosComponent
+    ListaEspaciosComponent,
+    ListaReservasComponent
   ],
   imports: [
     BrowserModule,
