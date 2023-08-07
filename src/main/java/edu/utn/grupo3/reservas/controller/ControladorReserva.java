@@ -2,8 +2,12 @@ package edu.utn.grupo3.reservas.controller;
 
 import edu.utn.grupo3.reservas.exceptions.ReservaConflictException;
 import edu.utn.grupo3.reservas.model.Reserva;
+import edu.utn.grupo3.reservas.model.Solicitante;
 import edu.utn.grupo3.reservas.service.IReservaService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,5 +44,15 @@ public class ControladorReserva {
     @DeleteMapping("/{ID}")
     public String eliminar(@PathVariable("ID") Integer id) {
         return this.service.eliminar(id);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<Reserva>> listarReservas(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Reserva> reservas = this.service.getTodosPaginado(pageable);
+
+        return ResponseEntity.ok(reservas);
     }
 }
