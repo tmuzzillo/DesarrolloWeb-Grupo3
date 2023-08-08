@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +51,9 @@ public class ControladorSolicitante {
         Page<Solicitante> solicitantesPage = this.solicitanteService.getTodosPaginado(pageable);
         List<Solicitante> solicitantes = solicitantesPage.getContent();
 
-        return ResponseEntity.ok(solicitantes);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.add("X-Total-Count", Long.toString(solicitantesPage.getTotalElements()));
+
+        return ResponseEntity.ok().headers(responseHeaders).body(solicitantes);
     }
 }

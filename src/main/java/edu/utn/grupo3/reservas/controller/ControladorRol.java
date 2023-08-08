@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,8 +48,12 @@ public class ControladorRol {
             @RequestParam(defaultValue = "5") int size) {
         Pageable pageable = PageRequest.of(page, size);
         Page<Rol> rolesPage = this.rolService.getTodosPaginado(pageable);
+
         List<Rol> roles = rolesPage.getContent();
 
-        return ResponseEntity.ok(roles);
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.add("X-Total-Count", Long.toString(rolesPage.getTotalElements()));
+
+        return ResponseEntity.ok().headers(responseHeaders).body(roles);
     }
 }
