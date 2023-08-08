@@ -13,6 +13,7 @@ const routes: Routes = [
   {path: 'solicitantes',component:ListaSolicitantesComponent},
   {path: 'recursos',component:ListaRecursosComponent},
   {path: 'espacios',component:ListaEspaciosComponent},
+  {path: 'reservas',component:ListaReservasComponent},
   {path: ' ',redirectTo:'roles',pathMatch:'full'}
 ];
 

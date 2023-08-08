@@ -1,25 +1,49 @@
 import { RecursoService } from '../service/recurso.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { Recurso } from '../model/recurso';
+import { Page } from '../page';
 
 @Component({
   selector: 'app-lista-recursos',
   templateUrl: './lista-recursos.component.html',
   styleUrls: ['./lista-recursos.component.css']
 })
-export class ListaRecursosComponent {
+export class ListaRecursosComponent implements OnInit {
+  recursos: Recurso[];
+  currentPage = 0;
+  pageSize = 5;
+  totalPages: number[];
+
   title = 'recurso dashboard';
 
   recursoDetails = null as any;
   recursoToUpdate = {
-    id:"",
-    nombre:"",
-    descripcion:"",
+    id: "",
+    nombre: "",
+    descripcion: "",
   }
 
   constructor(private recursoService: RecursoService) {
-    this.getRecursosDetails();
+    //this.getRecursosDetails();
+  }
+
+  ngOnInit(): void {
+    this.cargarRecursos();
+  }
+
+  cargarRecursos(): void {
+    this.recursoService.getRecursosPaginados(this.currentPage, this.pageSize)
+      .subscribe((data: Page<Recurso>) => {
+        this.recursos = data.content;
+        this.totalPages = new Array(data.totalPages).fill(0).map((x, i) => i);
+      });
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.cargarRecursos();
   }
 
   register(registerForm: NgForm) {
@@ -27,16 +51,16 @@ export class ListaRecursosComponent {
       (resp) => {
         console.log(resp);
         registerForm.reset();
-        this.getRecursosDetails();
+        this.cargarRecursos();
       },
       (err) => {
         console.log(err);
       }
     );
   }
-
+  /*
   getRecursosDetails() {
-    this.recursoService.getRecursos().subscribe(
+    this.recursoService.getRecursosPaginados().subscribe(
       (resp) => {
         console.log(resp);
         this.recursoDetails = resp;
@@ -46,6 +70,7 @@ export class ListaRecursosComponent {
       }
     );
   }
+  */
 
   deleteRecurso(recurso: any) {
     Swal.fire({
@@ -61,7 +86,7 @@ export class ListaRecursosComponent {
         this.recursoService.deleteRecurso(recurso.id).subscribe(
           (resp) => {
             console.log(resp);
-            this.getRecursosDetails();
+            this.cargarRecursos();
           },
           (err) => {
             console.log(err);
@@ -76,11 +101,11 @@ export class ListaRecursosComponent {
     })
   }
 
-  edit(recurso: any){
+  edit(recurso: any) {
     this.recursoToUpdate = recurso;
   }
 
-  updateRecurso(){
+  updateRecurso() {
     Swal.fire({
       title: 'Do you want to save the changes?',
       showDenyButton: true,

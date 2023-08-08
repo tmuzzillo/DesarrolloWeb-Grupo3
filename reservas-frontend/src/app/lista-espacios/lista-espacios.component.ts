@@ -33,7 +33,7 @@ export class ListaEspaciosComponent {
 
   constructor(private espacioService: EspacioService, private recursoService: RecursoService) {
     this.getEspaciosDetails();
-    this.getRecursosDetails();
+    //this.getRecursosDetails();
   }
 
   cambiarRecurso(e){
@@ -41,6 +41,7 @@ export class ListaEspaciosComponent {
     this.recurso_selected =e.target.value;
   }
 
+  /*
   getRecursosDetails() {
     this.recursoService.getRecursos().subscribe(
       (resp) => {
@@ -52,6 +53,7 @@ export class ListaEspaciosComponent {
       }
     );
   }
+  */
 
   register(registerForm: NgForm) {
     this.espacioService.registerEspacio(registerForm.value).subscribe(

@@ -9,11 +9,13 @@ export class SolicitanteService {
   constructor(private http: HttpClient) { }
 
   //Esta URL obtiene el listado de todos los solicitantees en el back
-  private baseURL = "http://192.168.100.108:8080";
+
+  private baseURL = "http://192.168.0.120:8080/solicitantes";
+
 
   //Este metodo obtiene los solicitantes
   getSolicitantes(){
-    return this.http.get(this.baseURL+"/getSolicitantes");
+    return this.http.get(this.baseURL+"/todos");
   }
 
   //Este metodo registra un solicitante

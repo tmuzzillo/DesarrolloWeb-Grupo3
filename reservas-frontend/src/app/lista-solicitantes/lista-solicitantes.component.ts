@@ -41,7 +41,7 @@ export class ListaSolicitantesComponent {
   cambiarRol(e){
     console.log(e.target.value)
     this.selected =e.target.value;
-}
+  }
 
   getRolesDetails() {
     this.rolService.getRoles().subscribe(

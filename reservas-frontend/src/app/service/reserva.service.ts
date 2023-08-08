@@ -8,12 +8,13 @@ export class ReservaService {
 
   constructor(private http: HttpClient) { }
 
-  //Esta URL obtiene el listado de todos los reservas en el back
-  private baseURL = "http://192.168.100.108:8080";
+  //Esta URL obtiene el listado de todos los reservaes en el back
+  private baseURL = "http://192.168.0.120:8080/reservas";
 
   //Este metodo obtiene los reservas
   getReservas(){
-    return this.http.get(this.baseURL+"/getReservas");
+    return this.http.get(this.baseURL+"/todos");
+
   }
 
   //Este metodo registra un reserva
@@ -23,7 +24,9 @@ export class ReservaService {
 
   //Este metodo actualiza un reserva
   updateReservas(reserva:any){
+
 console.log(reserva)
+
     return this.http.put(this.baseURL + '/updateReservas', reserva);
   }
   
@@ -36,4 +39,7 @@ console.log(reserva)
   getReservaById(id:number){
     return this.http.get(this.baseURL+"/reservas"+id);
   }
+
 }
+
+

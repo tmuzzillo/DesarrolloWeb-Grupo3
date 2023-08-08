@@ -9,11 +9,13 @@ export class RolService {
   constructor(private http: HttpClient) { }
 
   //Esta URL obtiene el listado de todos los roles en el back
-  private baseURL = "http://192.168.100.108:8080";
+
+  private baseURL = "http://192.168.0.120:8080/roles";
+
 
   //Este metodo obtiene los roles
   getRoles(){
-    return this.http.get(this.baseURL+"/getRoles");
+    return this.http.get(this.baseURL+"/todos");
   }
 
   //Este metodo registra un rol
