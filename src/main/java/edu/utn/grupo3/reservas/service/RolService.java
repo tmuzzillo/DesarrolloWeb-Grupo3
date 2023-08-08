@@ -1,12 +1,15 @@
 package edu.utn.grupo3.reservas.service;
 
 import edu.utn.grupo3.reservas.model.Espacio;
+import edu.utn.grupo3.reservas.model.Recurso;
 import edu.utn.grupo3.reservas.model.Rol;
 import edu.utn.grupo3.reservas.persistence.RepositorioRol;
 import lombok.RequiredArgsConstructor;
 import org.apache.velocity.exception.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,6 +43,11 @@ public class RolService implements IRolService{
         Rol r = rolRepository.findById(id).get();
         r.setNombre(rol.getNombre());
         return rolRepository.save(r);
+    }
+
+    @Override
+    public Page<Rol> getTodosPaginado(Pageable p) {
+        return rolRepository.findAll(p);
     }
 
 }

@@ -1,18 +1,17 @@
 package edu.utn.grupo3.reservas.service;
 
 import edu.utn.grupo3.reservas.model.Solicitante;
-import edu.utn.grupo3.reservas.model.Solicitante;
 import edu.utn.grupo3.reservas.model.view.SolicitanteDto;
 import edu.utn.grupo3.reservas.persistence.RepositorioRol;
-import edu.utn.grupo3.reservas.persistence.RepositorioSolicitante;
 import edu.utn.grupo3.reservas.persistence.RepositorioSolicitante;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -47,5 +46,10 @@ solicitante.setRoles(rolesRepository.findById(solicitanteDto.getRoles()).get());
         r.setDni(solicitante.getDni());
         r.setRoles(rolesRepository.findById(solicitante.getRoles()).get());
         return solicitanteRepository.save(r);
+    }
+
+    @Override
+    public Page<Solicitante> getTodosPaginado(Pageable p) {
+        return solicitanteRepository.findAll(p);
     }
 }

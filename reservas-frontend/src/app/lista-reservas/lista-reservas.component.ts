@@ -1,3 +1,4 @@
+
 import { ReservaService } from '../service/reserva.service';
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormControl, NgForm} from '@angular/forms';
@@ -8,11 +9,15 @@ import { EspacioService } from '../service/espacio.service';
 import { Espacio } from '../model/espacio';
 
 
+import { Component } from '@angular/core';
+
+
 @Component({
   selector: 'app-lista-reservas',
   templateUrl: './lista-reservas.component.html',
   styleUrls: ['./lista-reservas.component.css']
 })
+
 
 export class ListaReservasComponent {
   title = 'reserva dashboard';
@@ -181,4 +186,5 @@ export class ListaReservasComponent {
       }
     })
   }
+
 }

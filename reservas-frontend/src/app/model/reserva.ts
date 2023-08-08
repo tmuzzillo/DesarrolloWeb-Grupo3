@@ -1,4 +1,5 @@
 export class Reserva {
+
     id:number;
     fecha:String;
     horaDesde:String;
@@ -8,4 +9,5 @@ export class Reserva {
     fechaHoraReserva:String;
     solicitantes:number;
     espacios:number;
+
 }

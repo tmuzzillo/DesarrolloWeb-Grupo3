@@ -18,6 +18,6 @@ public class Espacio extends ObjetDB {
 
     @ManyToMany
     private List<Recurso> recursos;
-    @ManyToOne
-    private EstadoEspacio estadosEspacio;
+    //@ManyToOne
+    //private EstadoEspacio estadosEspacio;
 }

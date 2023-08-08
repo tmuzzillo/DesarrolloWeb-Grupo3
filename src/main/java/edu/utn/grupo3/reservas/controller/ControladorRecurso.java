@@ -4,7 +4,10 @@ import edu.utn.grupo3.reservas.model.Espacio;
 import edu.utn.grupo3.reservas.model.Recurso;
 import edu.utn.grupo3.reservas.service.IRecursoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -13,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/recursos")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200/")
 public class ControladorRecurso {
 
     private final IRecursoService service;
@@ -33,8 +37,15 @@ public class ControladorRecurso {
         return this.service.guardar(r);
     }
 
-    @GetMapping(params={"page"})
-    public Iterable<Recurso> getTodosPaginado(Pageable p){
-        return this.service.getTodosPaginado(p);
+    @GetMapping
+    public ResponseEntity<List<Recurso>> listarRecursos(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<Recurso> recursosPage = this.service.getTodosPaginado(pageable);
+        List<Recurso> recursos = recursosPage.getContent();
+
+        return ResponseEntity.ok(recursos);
     }
+
 }

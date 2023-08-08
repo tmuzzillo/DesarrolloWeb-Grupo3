@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class ReservaService {
+
   constructor(private http: HttpClient) { }
 
   //Esta URL obtiene el listado de todos los reservaes en el back
@@ -13,6 +14,7 @@ export class ReservaService {
   //Este metodo obtiene los reservas
   getReservas(){
     return this.http.get(this.baseURL+"/todos");
+
   }
 
   //Este metodo registra un reserva
@@ -22,6 +24,9 @@ export class ReservaService {
 
   //Este metodo actualiza un reserva
   updateReservas(reserva:any){
+
+console.log(reserva)
+
     return this.http.put(this.baseURL + '/updateReservas', reserva);
   }
   
@@ -34,4 +39,7 @@ export class ReservaService {
   getReservaById(id:number){
     return this.http.get(this.baseURL+"/reservas"+id);
   }
+
 }
+
+

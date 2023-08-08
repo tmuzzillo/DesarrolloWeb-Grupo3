@@ -1,9 +1,13 @@
 package edu.utn.grupo3.reservas.service;
 
+import edu.utn.grupo3.reservas.exceptions.ReservaConflictException;
 import edu.utn.grupo3.reservas.model.Reserva;
+import edu.utn.grupo3.reservas.model.Solicitante;
 import edu.utn.grupo3.reservas.persistence.RepositorioReserva;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,6 +20,9 @@ import java.util.Optional;
 public class ReservaService implements IReservaService {
     @Autowired
     private final RepositorioReserva repositorio;
+
+    @Autowired
+    private final ValidationService validationService;
 
     @Override
     public Reserva get(Integer id) {
@@ -33,8 +40,12 @@ public class ReservaService implements IReservaService {
     }
 
     @Override
-    public Reserva guardar(Reserva e) {
-        return repositorio.save(e);
+    public Reserva guardar(Reserva e) throws ReservaConflictException {
+        boolean validacion = validationService.validarFechaReserva(e.getFecha(), e.getHoraDesde(), e.getHoraHasta());
+        if (validacion){
+            return repositorio.save(e);
+        }
+        throw new ReservaConflictException("La fecha de la reserva no es valida, tiene conflictos con otras reservas");
     }
 
     @Override
@@ -46,5 +57,10 @@ public class ReservaService implements IReservaService {
     public String eliminar(Integer id) {
         repositorio.deleteById(id);
         return "Se ha eliminado correctamente";
+    }
+
+    @Override
+    public Page<Reserva> getTodosPaginado(Pageable p) {
+        return repositorio.findAll(p);
     }
 }
