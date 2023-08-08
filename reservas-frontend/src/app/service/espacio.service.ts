@@ -10,11 +10,11 @@ export class EspacioService {
   constructor(private http: HttpClient) { }
 
   //Esta URL obtiene el listado de todos los espacios en el back
-  private baseURL = "http://localhost:8080";
+  private baseURL = "http://192.168.0.120:8080/espacios";
 
   //Este metodo obtiene los espacios
   getEspacios(){
-    return this.http.get(this.baseURL+"/getEspacios");
+    return this.http.get(this.baseURL+"/todos");
   }
 
   //Este metodo registra un espacio

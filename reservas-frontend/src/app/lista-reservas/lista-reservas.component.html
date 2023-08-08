@@ -13,7 +13,9 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Nueva Reserva</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="card mt-3" style="padding: 20px">
@@ -43,11 +45,6 @@
                             <label for="name">Motivo de reserva:</label>
                             <input type="text" #motivoReserva (ngModel)="(motivoReserva)" name="motivoReserva"
                                 id="motivoReserva" class="form-control" placeholder="Motivo de la reserva" />
-                        </div>
-                        <div class="form-group">
-                            <label for="name">fechaHoraReserva</label>
-                            <input type="text" #fechaHoraReserva (ngModel)="(fechaHoraReserva)" name="fechaHoraReserva"
-                                id="fechaHoraReserva" class="form-control" placeholder="Fecha y hora de reserva" />
                         </div>
                         <div class="form-group">
                             <label for="name">Solicitante que reserva</label>
@@ -88,9 +85,11 @@
                     <th>fecha</th>
                     <th>Hora Desde</th>
                     <th>Hora Hasta</th>
-                    <th>FechaHora Reserva</th>
+                    <th>Cantidad Reserva</th>
                     <th>Motivo</th>
-                    <th>Cantidad</th>
+                    <th>FechaHora Reserva</th>
+                    <th>Solicitante</th>
+                    <th>Espacio</th>
                     <th>Editar</th>
                     <th>Eliminar</th>
                 </tr>
@@ -104,7 +103,7 @@
                     <td>{{reserva.cantidadReserva}}</td>
                     <td>{{reserva.motivo}}</td>
                     <td>{{reserva.fechaHoraReserva}}</td>
-                    <td>{{reserva.reservas.nombre}}</td>
+                    <td>{{reserva.solicitantes.nombre}}</td>
                     <td>{{reserva.espacios.nombre}}</td>
                     <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                             (click)="edit(reserva)">Edit</button></td>

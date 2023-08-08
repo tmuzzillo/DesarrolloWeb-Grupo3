@@ -1,5 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Recurso } from '../model/recurso';
+import { Page } from '../page';
 
 @Injectable({
   providedIn: 'root'
@@ -8,11 +11,18 @@ export class RecursoService {
   constructor(private http: HttpClient) { }
 
   //Esta URL obtiene el listado de todos los recursoes en el back
-  private baseURL = "http://localhost:8080";
+  private baseURL = "http://192.168.0.120:8080/recursos";
 
   //Este metodo obtiene los recursos
-  getRecursos(){
-    return this.http.get(this.baseURL+"/getRecursos");
+  //getRecursos(){
+  //  return this.http.get(this.baseURL+"/todos");
+  //}
+  
+  getRecursosPaginados(page: number, size: number): Observable<Page<Recurso>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+    return this.http.get<Page<Recurso>>(this.baseURL, {params});
   }
 
   //Este metodo registra un recurso
