@@ -26,7 +26,7 @@ public class ControladorRol {
         return rolService.registerRol(Rol);
     }
 
-    @GetMapping("/getRoles")
+    @GetMapping("/todos")
     public List<Rol> getRoles(){
         return rolService.getRoles();
     }
@@ -42,11 +42,12 @@ public class ControladorRol {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Rol>> listarRoles(
+    public ResponseEntity<List<Rol>> listarRoles(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Rol> roles = this.rolService.getTodosPaginado(pageable);
+        Page<Rol> rolesPage = this.rolService.getTodosPaginado(pageable);
+        List<Rol> roles = rolesPage.getContent();
 
         return ResponseEntity.ok(roles);
     }

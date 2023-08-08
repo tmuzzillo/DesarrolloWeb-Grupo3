@@ -1,5 +1,6 @@
 package edu.utn.grupo3.reservas.controller;
 
+import edu.utn.grupo3.reservas.model.Recurso;
 import edu.utn.grupo3.reservas.model.Solicitante;
 import edu.utn.grupo3.reservas.model.view.SolicitanteDto;
 import edu.utn.grupo3.reservas.service.SolicitanteService;
@@ -26,7 +27,7 @@ public class ControladorSolicitante {
         return solicitanteService.registerSolicitante(solicitanteDto);
     }
 
-    @GetMapping("/getSolicitantes")
+    @GetMapping("/todos")
     public List<Solicitante> getSolicitantes(){
         return solicitanteService.getSolicitantes();
     }
@@ -42,11 +43,12 @@ public class ControladorSolicitante {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Solicitante>> listarSolicitantes(
+    public ResponseEntity<List<Solicitante>> listarSolicitantes(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Solicitante> solicitantes = this.solicitanteService.getTodosPaginado(pageable);
+        Page<Solicitante> solicitantesPage = this.solicitanteService.getTodosPaginado(pageable);
+        List<Solicitante> solicitantes = solicitantesPage.getContent();
 
         return ResponseEntity.ok(solicitantes);
     }

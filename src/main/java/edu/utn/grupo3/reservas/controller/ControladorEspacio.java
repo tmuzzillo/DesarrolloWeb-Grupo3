@@ -10,6 +10,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/espacios")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200/")
 public class ControladorEspacio {
 
     private final IEspacioService service;

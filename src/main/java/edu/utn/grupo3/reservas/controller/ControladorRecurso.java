@@ -16,6 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/recursos")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:4200/")
 public class ControladorRecurso {
 
     private final IRecursoService service;
@@ -37,12 +38,14 @@ public class ControladorRecurso {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Recurso>> listarRecursos(
+    public ResponseEntity<List<Recurso>> listarRecursos(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size) {
         Pageable pageable = PageRequest.of(page, size);
-        Page<Recurso> recursos = this.service.getTodosPaginado(pageable);
+        Page<Recurso> recursosPage = this.service.getTodosPaginado(pageable);
+        List<Recurso> recursos = recursosPage.getContent();
 
         return ResponseEntity.ok(recursos);
     }
+
 }
