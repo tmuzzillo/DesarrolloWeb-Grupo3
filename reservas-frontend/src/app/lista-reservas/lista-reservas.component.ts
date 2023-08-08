@@ -9,9 +9,6 @@ import { EspacioService } from '../service/espacio.service';
 import { Espacio } from '../model/espacio';
 
 
-import { Component } from '@angular/core';
-
-
 @Component({
   selector: 'app-lista-reservas',
   templateUrl: './lista-reservas.component.html',

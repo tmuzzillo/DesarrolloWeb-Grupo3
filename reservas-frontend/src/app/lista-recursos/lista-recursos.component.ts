@@ -1,9 +1,11 @@
-import { RecursoService } from '../service/recurso.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
 import { Recurso } from '../model/recurso';
 import { Page } from '../page';
+import { RecursoService } from '../service/recurso.service';
+import { HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-lista-recursos',
@@ -15,19 +17,15 @@ export class ListaRecursosComponent implements OnInit {
   currentPage = 0;
   pageSize = 5;
   totalPages: number[];
+  totalItems: number = 0;
 
-  title = 'recurso dashboard';
-
-  recursoDetails = null as any;
   recursoToUpdate = {
     id: "",
     nombre: "",
     descripcion: "",
-  }
+  };
 
-  constructor(private recursoService: RecursoService) {
-    //this.getRecursosDetails();
-  }
+  constructor(private recursoService: RecursoService) { }
 
   ngOnInit(): void {
     this.cargarRecursos();
@@ -35,11 +33,20 @@ export class ListaRecursosComponent implements OnInit {
 
   cargarRecursos(): void {
     this.recursoService.getRecursosPaginados(this.currentPage, this.pageSize)
-      .subscribe((data: Page<Recurso>) => {
-        this.recursos = data.content;
-        this.totalPages = new Array(data.totalPages).fill(0).map((x, i) => i);
+      .subscribe((response: HttpResponse<Recurso[]>) => {
+        console.log('API Response:', response.body);
+        this.recursos = response.body;
+  
+        // Get the totalItems from the X-Total-Count header
+        const totalCountHeader = response.headers.get('X-Total-Count');
+        console.log('header:', totalCountHeader);
+        this.totalItems = totalCountHeader ? parseInt(totalCountHeader, 10) : 0;
+  
+        this.totalPages = Array.from({ length: Math.ceil(this.totalItems / this.pageSize) }).map((_, i) => i);
+        console.log('total pages:', this.totalPages);
       });
   }
+
 
   onPageChange(page: number): void {
     this.currentPage = page;
@@ -58,19 +65,6 @@ export class ListaRecursosComponent implements OnInit {
       }
     );
   }
-  /*
-  getRecursosDetails() {
-    this.recursoService.getRecursosPaginados().subscribe(
-      (resp) => {
-        console.log(resp);
-        this.recursoDetails = resp;
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-  }
-  */
 
   deleteRecurso(recurso: any) {
     Swal.fire({

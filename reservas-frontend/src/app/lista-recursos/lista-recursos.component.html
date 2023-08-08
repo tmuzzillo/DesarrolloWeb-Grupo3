@@ -1,85 +1,92 @@
 <div class="container">
-    <div class="card mt-5" style="align-items: center;">
-      <h1>Recurso Dashboard</h1>
-    </div>
-  
-    <div class="card mt-5" style="padding: 20px;">
-      <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
-        <div class="form-group">
-          <label for="name">Nombre del Recurso :</label>
-          <input type="text" #nombre (ngModel)="nombre" name="nombre" id="nombre" class="form-control" placeholder="Nombre del Recurso">
-        </div>
-        <div class="form-group">
-            <label for="name">Descripcion del Recurso :</label>
-            <input type="text" #descripcion (ngModel)="descripcion" name="descripcion" id="descripcion" class="form-control"
-              placeholder="Descripcion del Recurso" />
-        </div>
-        <button type="button" class="btn btn-primary" (click)="register(registerForm)">Register</button>
-      </form>
-    </div>
-  
-    <div class="mt-5">
-      <table class="table table-bordered">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Descripcion</th>
-            <th>Editar</th>
-            <th>Eliminar</th>
-          </tr>
-        </thead>
-        <tbody class="tbody">
-          <tr *ngFor="let recurso of recursos">
-            <td>{{recurso.id}}</td>
-            <td>{{recurso.nombre}}</td>
-            <td>{{recurso.descripcion}}</td>
-            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                (click)="edit(recurso)">Edit</button></td>
-            <td><button type="button" class="btn btn-danger" (click)="deleteRecurso(recurso)">Delete</button></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="card mt-5" style="align-items: center;">
+    <h1>Recurso Dashboard</h1>
   </div>
-  <div *ngIf="totalPages && totalPages.length > 1">
-    <button *ngFor="let page of totalPages" (click)="onPageChange(page)">
-      {{ page + 1 }}
-    </button>
+
+  <div class="card mt-5" style="padding: 20px;">
+    <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
+      <div class="form-group">
+        <label for="name">Nombre del Recurso :</label>
+        <input type="text" #nombre (ngModel)="nombre" name="nombre" id="nombre" class="form-control"
+          placeholder="Nombre del Recurso">
+      </div>
+      <div class="form-group">
+        <label for="name">Descripcion del Recurso :</label>
+        <input type="text" #descripcion (ngModel)="descripcion" name="descripcion" id="descripcion" class="form-control"
+          placeholder="Descripcion del Recurso" />
+      </div>
+      <button type="button" class="btn btn-primary" (click)="register(registerForm)">Register</button>
+    </form>
   </div>
-  
-  <div class="modal fade" id="exampleModal" tabindex="-1" recursoe="dialog" aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" recursoe="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Update Recurso</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <form #updateForm="ngForm" (ngSubmit)="updateRecurso()">
-            <div class="form-group">
-              <label for="id">Recurso id :</label>
-              <input type="text" disabled #id [(ngModel)]="recursoToUpdate.id" name="id" id="id"
-                class="form-control" placeholder="Recurso id">
-            </div>
-            <div class="form-group">
-              <label for="name">Recurso Nombre :</label>
-              <input type="text" #name [(ngModel)]="recursoToUpdate.nombre" name="nombre" id="nombre" class="form-control"
-                placeholder="Recurso Nombre">
-            </div>
-            <div class="form-group">
-                <label for="name">Recurso Descripcion :</label>
-                <input type="text" #name [(ngModel)]="recursoToUpdate.descripcion" name="descripcion" id="descripcion" class="form-control"
-                  placeholder="Recurso Descripcion">
-              </div>
-            <div class="form-group">
-              <input type="submit" value="Update" class="btn btn-primary w-100">
-            </div>
-          </form>
-        </div>
+
+  <div class="mt-5">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Editar</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let recurso of recursos">
+          <td>{{ recurso.id }}</td>
+          <td>{{ recurso.nombre }}</td>
+          <td>{{ recurso.descripcion }}</td>
+          <td>
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
+              (click)="edit(recurso)">Edit</button>
+          </td>
+          <td>
+            <button type="button" class="btn btn-danger" (click)="deleteRecurso(recurso)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="pagination mt-3">
+  <button *ngFor="let page of totalPages" class="page-item" (click)="onPageChange(page)">
+    {{ page + 1 }}
+  </button>
+</div>
+
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" recursoe="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" recursoe="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Recurso</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form #updateForm="ngForm" (ngSubmit)="updateRecurso()">
+          <div class="form-group">
+            <label for="id">Recurso id :</label>
+            <input type="text" disabled #id [(ngModel)]="recursoToUpdate.id" name="id" id="id" class="form-control"
+              placeholder="Recurso id">
+          </div>
+          <div class="form-group">
+            <label for="name">Recurso Nombre :</label>
+            <input type="text" #name [(ngModel)]="recursoToUpdate.nombre" name="nombre" id="nombre" class="form-control"
+              placeholder="Recurso Nombre">
+          </div>
+          <div class="form-group">
+            <label for="name">Recurso Descripcion :</label>
+            <input type="text" #name [(ngModel)]="recursoToUpdate.descripcion" name="descripcion" id="descripcion"
+              class="form-control" placeholder="Recurso Descripcion">
+          </div>
+          <div class="form-group">
+            <input type="submit" value="Update" class="btn btn-primary w-100">
+          </div>
+        </form>
       </div>
     </div>
+  </div>
 </div>

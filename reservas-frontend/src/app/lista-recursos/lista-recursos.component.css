@@ -1,0 +1,20 @@
+
+
+div.pagination {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .page-item {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f5f5f5;
+  }
+  
+  .page-item:hover {
+    background-color: #e0e0e0;
+  }
+  
