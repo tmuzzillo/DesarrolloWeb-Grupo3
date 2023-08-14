@@ -45,6 +45,7 @@ public class ControladorRecurso {
         Page<Recurso> recursosPage = this.service.getTodosPaginado(pageable);
 
         List<Recurso> recursos = recursosPage.getContent();
+
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.add("X-Total-Count", Long.toString(recursosPage.getTotalElements()));
 
