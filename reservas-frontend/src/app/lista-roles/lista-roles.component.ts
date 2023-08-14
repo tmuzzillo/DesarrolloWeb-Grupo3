@@ -1,7 +1,9 @@
 import { RolService } from '../service/rol.service';
+import { HttpClient, HttpParams, HttpResponse} from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormControl, NgForm} from '@angular/forms';
 import Swal from 'sweetalert2';
+import { Rol } from '../model/rol'
 
 @Component({
   selector: 'app-lista-roles',
@@ -9,7 +11,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./lista-roles.component.css']
 })
 
-export class ListaRolesComponent {
+export class ListaRolesComponent implements OnInit {
   title = 'rol dashboard';
 
   time = '6:00 am';
@@ -21,14 +23,24 @@ export class ListaRolesComponent {
     id:"",
     nombre:"",
   }
+  //Para paginacion
+  roles: Rol[];
+  currentPage = 0;
+  pageSize = 5;
+  totalPages: number[];
+  totalItems: number = 0;
 
   constructor(private rolService: RolService) {
-    this.getRolesDetails();
+    this.getRoles();
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
     const currentDay = new Date().getDate();
     this.minDate = new Date(currentYear - 0, currentMonth, currentDay);
     this.maxDate = new Date(currentYear + 31, 5, 20);
+  }
+
+  ngOnInit(): void {
+    this.getRoles();
   }
 
   myFilter = (d: Date | null): boolean => {
@@ -37,12 +49,33 @@ export class ListaRolesComponent {
     return day !== 0 && day !== 6;
   };
 
+  getRoles(): void {
+    this.rolService.getRolesPaginados(this.currentPage, this.pageSize)
+      .subscribe((response: HttpResponse<Rol[]>) => {
+        console.log('API Response:', response.body);
+        this.roles = response.body;
+  
+        // Get the totalItems from the X-Total-Count header
+        const totalCountHeader = response.headers.get('X-Total-Count');
+        console.log('header:', totalCountHeader);
+        this.totalItems = totalCountHeader ? parseInt(totalCountHeader, 10) : 0;
+  
+        this.totalPages = Array.from({ length: Math.ceil(this.totalItems / this.pageSize) }).map((_, i) => i);
+        console.log('total pages:', this.totalPages);
+      });
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage = page;
+    this.getRoles();
+  }
+
   register(registerForm: NgForm) {
     this.rolService.registerRol(registerForm.value).subscribe(
       (resp) => {
         console.log(resp);
         registerForm.reset();
-        this.getRolesDetails();
+        this.getRoles();
       },
       (err) => {
         console.log(err);
@@ -50,17 +83,6 @@ export class ListaRolesComponent {
     );
   }
 
-  getRolesDetails() {
-    this.rolService.getRoles().subscribe(
-      (resp) => {
-        console.log(resp);
-        this.rolDetails = resp;
-      },
-      (err) => {
-        console.log(err);
-      }
-    );
-  }
 
   deleteRol(rol: any) {
     Swal.fire({
@@ -76,7 +98,7 @@ export class ListaRolesComponent {
         this.rolService.deleteRol(rol.id).subscribe(
           (resp) => {
             console.log(resp);
-            this.getRolesDetails();
+            this.getRoles();
           },
           (err) => {
             console.log(err);

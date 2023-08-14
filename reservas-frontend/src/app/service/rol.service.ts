@@ -1,5 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Rol } from '../model/rol';
 
 @Injectable({
   providedIn: 'root'
@@ -10,12 +12,22 @@ export class RolService {
 
   //Esta URL obtiene el listado de todos los roles en el back
 
-  private baseURL = "http://192.168.0.120:8080/roles";
+  private baseURL = "http://localhost:8080/roles";
 
-
+/*
   //Este metodo obtiene los roles
   getRoles(){
     return this.http.get(this.baseURL+"/todos");
+  }
+  */
+
+  // Este método obtiene los recursos paginados
+  getRolesPaginados(page: number, size: number): Observable<HttpResponse<Rol[]>> {
+    const params = new HttpParams()
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<Rol[]>(this.baseURL, { params, observe: 'response' });
   }
 
   //Este metodo registra un rol

@@ -52,7 +52,7 @@
         </tr>
       </thead>
       <tbody class="tbody">
-        <tr *ngFor="let rol of rolDetails">
+        <tr *ngFor="let rol of roles">
           <td>{{rol.id}}</td>
           <td>{{rol.nombre}}</td>
           <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
@@ -62,6 +62,11 @@
       </tbody>
     </table>
   </div>
+</div>
+<div class="pagination mt-3">
+  <button *ngFor="let page of totalPages" class="page-item" (click)="onPageChange(page)">
+    {{ page + 1 }}
+  </button>
 </div>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
