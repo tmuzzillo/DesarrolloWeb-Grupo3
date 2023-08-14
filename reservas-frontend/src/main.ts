@@ -1,5 +1,9 @@
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import {registerLicense} from '@syncfusion/ej2-base';
 import { AppModule } from './app/app.module';
+import { enableProdMode } from '@angular/core';
+
+registerLicense("ORg4AjUWIQA/Gnt2V1hiQlRPf0BFQmFJfFBmQ2ladlRxdkUmHVdTRHRcQlVjQX9bdUxmXH9ednc=");
 
 document.addEventListener('DOMContentLoaded', () => {
   var myModal = document.getElementById('myModal');
@@ -10,6 +14,8 @@ document.addEventListener('DOMContentLoaded', () => {
       myInput.focus();
     });
   }
+
+  enableProdMode();
 
   platformBrowserDynamic()
     .bootstrapModule(AppModule)

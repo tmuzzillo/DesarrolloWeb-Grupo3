@@ -1,10 +1,9 @@
-
 <div class="container">
     <div class="card mt-5" style="align-items:center">
         <h1 style="padding-top: 20px;">Reserva Dashboard</h1>
     </div>
     <div style="align-items:baseline; margin-top: 30px">
-        <button mat-raised-button color="primary" data-toggle="modal" data-target="#exampleModal">Nueva Reserva</button>
+        <button ejs-button cssClass="e-primary" data-toggle="modal" data-target="#exampleModal">Nueva Reserva</button>
     </div>
 </div>
 
@@ -23,62 +22,108 @@
                     <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
                         <div class="form-group">
                             <label for="name">Fecha :</label>
-                            <input type="text" #fecha (ngModel)="(fecha)" name="fecha" id="fecha" class="form-control"
-                                placeholder="Fecha de la Reserva" />
+                            <ejs-datepicker [strictMode]="true" format="dd/MM/yyyy"
+                                placeholder="Ingresar la fecha de la reserva" [(ngModel)]="dateValue"
+                                [isMultiSelection]="false" [cssClass]="null" [min]="minDate"></ejs-datepicker>
                         </div>
                         <div class="form-group">
                             <label for="name">Hora Desde :</label>
-                            <input type="text" #horaDesde (ngModel)="(horaDesde)" name="horaDesde" id="horaDesde"
-                                class="form-control" placeholder="Hora desde la Reserva" />
+                            <ejs-timepicker placeholder="Seleccionar la hora de inicio" #horaDesde
+                                [(ngModel)]="horaDesdeValue"></ejs-timepicker>
                         </div>
                         <div class="form-group">
                             <label for="name">Hora Hasta :</label>
-                            <input type="text" #horaHasta (ngModel)="(horaHasta)" name="horaHasta" id="horaHasta"
-                                class="form-control" placeholder="Hora final de la Reserva" />
+                            <ejs-timepicker placeholder="Seleccionar la hora de finalización" #horaHasta
+                                [(ngModel)]="horaHastaValue"
+                                [ngClass]="{'disabled': horaHastaValue < horaDesdeValue}"></ejs-timepicker>
+                            <div *ngIf="horaHastaValue < horaDesdeValue" class="text-danger">
+                                La hora de finalización no puede ser menor que la hora de inicio.
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="name">Cantidad de Reserva :</label>
-                            <input type="text" #cantidadReserva (ngModel)="(cantidadReserva)" name="cantidadReserva"
-                                id="cantidadReserva" class="form-control"
-                                placeholder="Cantidad de personas para la reserva" />
+                            <ejs-textbox #cantidadReserva [(ngModel)]="cantidadReservaValue" name="cantidadReserva"
+                                id="cantidadReserva" placeholder="Cantidad de personas para reservar"
+                                inputmode="numeric" (input)="filterOnlyNumbers($event)"
+                                (keypress)="preventNonNumericInput($event)"></ejs-textbox>
                         </div>
                         <div class="form-group">
                             <label for="name">Motivo de reserva:</label>
-                            <input type="text" #motivoReserva (ngModel)="(motivoReserva)" name="motivoReserva"
-                                id="motivoReserva" class="form-control" placeholder="Motivo de la reserva" />
+                            <ejs-textbox #motivoReserva (ngModel)="(motivoReserva)" name="motivoReserva"
+                                id="motivoReserva" placeholder="Motivo de la reserva"></ejs-textbox>
                         </div>
                         <div class="form-group">
                             <label for="name">Solicitante que reserva</label>
-                            <select class="form-select" [(ngModel)]="selected" (change)="cambiarSolicitante($event)"
-                                name="solictante" id="solicitantes">
-                                <option hidden value="" disabled selected>Selecionar un solicitante</option>
+                            <ejs-combobox [(ngModel)]="selected" (change)="cambiarSolicitante($event)" name="solictante"
+                                id="solicitantes" placeholder="Seleccionar un solicitante">
                                 <option [value]="solicitante.id" *ngFor="let solicitante of solicitanteDetails">
                                     {{ solicitante.nombre }}
                                 </option>
-                            </select>
+                            </ejs-combobox>
                         </div>
                         <div class="form-group">
                             <label for="name">Espacio a reservar</label>
-                            <select class="form-select" [(ngModel)]="selected" (change)="cambiarEspacio($event)"
-                                name="espacio" id="espacios">
-                                <option hidden value="" disabled selected>Selecionar un espacio</option>
+                            <ejs-combobox [(ngModel)]="selected" (change)="cambiarEspacio($event)" name="espacio"
+                                id="espacios" placeholder="Seleccionar un espacio">
                                 <option [value]="espacio.id" *ngFor="let espacio of espacioDetails">
                                     {{ espacio.nombre }}
                                 </option>
-                            </select>
+                            </ejs-combobox>
                         </div>
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Register</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Register</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <div class="container">
     <div class="mt-5" style="align-items:center">
+        <ejs-grid [dataSource]='data' [allowPaging]="true" [allowSorting]="true" [allowFiltering]="true"
+                [pageSettings]='pageSettings'  [editSettings]='editSettings' [toolbar]='toolbar' (actionBegin)='actionBegin($event)' (actionComplete)='actionComplete($event)'>
+            <e-columns>
+                <e-column field='id' headerText='ID' textAlign='Right' width=90 isPrimaryKey='true'></e-column>
+                <e-column field='fecha' headerText='Fecha' width=120 format="dd/MM/yyyy">
+                    <ejs-datepicker [strictMode]="true" 
+                                [min]="minDate" [(value)]="orderData.fecha">
+                    </ejs-datepicker>
+                </e-column>
+                <e-column field='horaDesde' headerText='Hora Desde' width=120 format="HH:mm"></e-column>
+                <e-column field='horaHasta' headerText='Hora Hasta' width=120 format="HH:mm"></e-column>
+                <e-column field='cantidadReserva' headerText='Cantidad Reserva' width=150></e-column>
+                <e-column field='motivo' headerText='Motivo' width=150></e-column>
+                <e-column field='fechaHoraReserva' headerText='FechaHora Reserva' width=150>
+                    <ng-template #template let-data>
+                        {{ formatDate(data.fechaHoraReserva) }}
+                    </ng-template>
+                </e-column>
+                <e-column field='solicitantes.nombre' headerText='Solicitante' width=150></e-column>
+                <e-column field='espacios.nombre' headerText='Espacio' width=150></e-column>
+            </e-columns>
+
+            <ng-template #editSettingsTemplate let-data>
+                <div ngForm #orderForm="ngForm">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <div class="e-float-input e-control-wrapper" [ngClass]="{'e-error': data.motivo.invalid && (data.motivo.dirty || data.motivo.touched)}">
+                                <input [(ngModel)]="data.motivo" required id="Motivo" name="Motivo" type="text" #Motivo="ngModel">
+                                <span class="e-float-line"></span>
+                                <label class="e-float-text e-label-top" for="Motivo">Motivo</label>
+                            </div>
+                            <div id="MotivoError" *ngIf='data.motivo.invalid && (data.motivo.dirty || data.motivo.touched)'>
+                                <label class="e-error" id="Motivo-info" style="display: block;">*Motivo is required</label>
+                            </div>
+                        </div>
+                    </div>      
+                </div> 
+            </ng-template>
+        </ejs-grid>
+
+        <!-- 
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -113,5 +158,6 @@
                 </tr>
             </tbody>
         </table>
+        -->
     </div>
 </div>

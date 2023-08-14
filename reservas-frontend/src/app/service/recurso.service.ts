@@ -32,12 +32,12 @@ export class RecursoService {
   
   //Este metodo registra un recurso
   public registerRecurso(recursoData: any){
-    return this.http.post(this.baseURL + '/registerRecurso', recursoData);
+    return this.http.post(this.baseURL, recursoData);
   }
 
   //Este metodo actualiza un recurso
   updateRecursos(recurso:any){
-    return this.http.put(this.baseURL + '/updateRecursos', recurso);
+    return this.http.post(this.baseURL, recurso);
   }
   
   //Este metodo elimina un recurso
@@ -47,6 +47,6 @@ export class RecursoService {
 
   //Este metodo obtiene o busca un recurso
   getRecursoById(id:number){
-    return this.http.get(this.baseURL+"/recursos"+id);
+    return this.http.get(this.baseURL+"/"+id);
   }
 }
