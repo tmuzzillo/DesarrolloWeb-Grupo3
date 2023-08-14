@@ -12,10 +12,10 @@ import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { MatFormFieldModule} from '@angular/material/form-field';
 import { MatSelectModule} from '@angular/material/select';
 import { MatInputModule} from '@angular/material/input';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatListModule} from '@angular/material/list';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatIconModule} from '@angular/material/icon';
+import { MatSidenavModule} from '@angular/material/sidenav';
+import { MatListModule} from '@angular/material/list';
+import { MatToolbarModule} from '@angular/material/toolbar';
+import { MatIconModule} from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule} from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -24,6 +24,12 @@ import { ListaRecursosComponent } from './lista-recursos/lista-recursos.componen
 import { ListaEspaciosComponent } from './lista-espacios/lista-espacios.component';
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { ListaReservasComponent } from './lista-reservas/lista-reservas.component';
+import { CalendarModule, DatePickerModule, TimePickerModule, DateRangePickerModule, DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { TextBoxModule} from '@syncfusion/ej2-angular-inputs';
+import { DropDownListModule, ComboBoxModule, AutoCompleteModule, MultiSelectModule, ListBoxModule, DropDownTreeModule, MentionModule } from '@syncfusion/ej2-angular-dropdowns';
+import { ButtonModule, CheckBoxModule, RadioButtonModule, SwitchModule, ChipListModule, FabModule, SpeedDialModule } from '@syncfusion/ej2-angular-buttons';
+import { GridModule, PagerModule} from '@syncfusion/ej2-angular-grids';
+import { FilterService, PageService, SortService, GroupService, EditService, ToolbarService } from '@syncfusion/ej2-angular-grids';
 
 
 @NgModule({
@@ -56,9 +62,12 @@ import { ListaReservasComponent } from './lista-reservas/lista-reservas.componen
     MatNativeDateModule,
     NgIf,
     JsonPipe,
-    NgxMaterialTimepickerModule
+    NgxMaterialTimepickerModule,
+    CalendarModule, DatePickerModule, TimePickerModule, DateRangePickerModule, DateTimePickerModule,
+    TextBoxModule,
+    DropDownListModule, ComboBoxModule, AutoCompleteModule, MultiSelectModule, ListBoxModule, DropDownTreeModule, MentionModule, ButtonModule, CheckBoxModule, RadioButtonModule, SwitchModule, ChipListModule, FabModule, SpeedDialModule, GridModule, PagerModule,
   ],
-  providers: [],
+  providers: [FilterService, PageService, SortService, GroupService, EditService, ToolbarService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

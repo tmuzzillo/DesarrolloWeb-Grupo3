@@ -4,31 +4,6 @@
   </div>
 
   <div class="card mt-5" style="padding: 20px;">
-    <div>
-      <mat-form-field class="example-full-width">
-        <mat-label>Choose a date</mat-label>
-        <input matInput [min]="minDate" [max]="maxDate" [matDatepickerFilter]="myFilter" [matDatepicker]="picker">
-        <mat-hint>MM/DD/YYYY</mat-hint>
-
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
-      <!-- 
-      <mat-form-field appearance="outline">
-        <mat-label>Chose a initial time</mat-label>
-        <input type="text"
-        matInput
-        [ngxMatTimepicker]="timepicker"
-        format="24"
-        [required]="required"
-        readonly
-        [formControl]="formControlItem">
-      </mat-form-field>
-      <input placeholder="Time" [ngxMaterialTimepicker]="picker">
-      -->
-      <ngx-material-timepicker #picker></ngx-material-timepicker>
-    </div>
-
     <form #registerForm="ngForm" (ngSubmit)="register(registerForm)">
       <div class="form-group">
         <label for="name">Nombre del Rol :</label>
