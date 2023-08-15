@@ -19,25 +19,26 @@ export class ReservaService {
 
   //Este metodo registra un reserva
   public registerReserva(reservaData: any){
-    return this.http.post(this.baseURL + '/registerReserva', reservaData);
+    console.log('Reserva:', reservaData)
+    return this.http.post(this.baseURL, reservaData);
   }
 
   //Este metodo actualiza un reserva
   updateReservas(reserva:any){
 
-console.log(reserva)
+    console.log(reserva)    
 
-    return this.http.put(this.baseURL + '/updateReservas', reserva);
+    return this.http.put(this.baseURL+ "/" + reserva.id, reserva);
   }
   
   //Este metodo elimina un reserva
   deleteReserva(id:number){
-    return this.http.delete(this.baseURL + '/deleteReserva?id=' + id);
+    return this.http.delete(this.baseURL + "/" + id);
   }
 
   //Este metodo obtiene o busca un reserva
   getReservaById(id:number){
-    return this.http.get(this.baseURL+"/reservas"+id);
+    return this.http.get(this.baseURL+"/"+id);
   }
 
 }

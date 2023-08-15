@@ -112,6 +112,7 @@ export class ListaRecursosComponent implements OnInit {
         this.recursoService.updateRecursos(this.recursoToUpdate).subscribe(
           (resp) => {
             console.log(resp);
+            window.location.reload();
           },
           (err) => {
             console.log(err);

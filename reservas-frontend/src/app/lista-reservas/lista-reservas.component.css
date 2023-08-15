@@ -5,3 +5,54 @@
     margin-bottom: 10px;
     margin-top: 10px;
   }
+  /* Ajusta el ancho del contenedor del listado */
+.ejs-grid {
+  width: 100%; /* Hace que el listado ocupe el ancho completo del contenedor */
+}
+
+/* Reduce los márgenes alrededor del listado */
+.mt-5 {
+  margin-top: 10px; /* Ajusta el margen superior */
+  margin-bottom: 10px; /* Ajusta el margen inferior */
+}
+
+/* Reduce los márgenes alrededor de los botones */
+.modal-footer .btn {
+  margin: 5px; /* Ajusta los márgenes de los botones en el modal footer */
+}
+
+  /* Estilos para el contenedor del componente */
+.form-group {
+  margin-bottom: 20px;
+}
+
+/* Estilos para la etiqueta del componente */
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Estilos para el componente <select> */
+.form-group select {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  transition: border-color 0.2s ease-in-out;
+}
+
+/* Estilos para el componente <select> al pasar el cursor */
+.form-group select:hover {
+  border-color: #aaa;
+}
+
+/* Estilos para el componente <select> cuando está enfocado */
+.form-group select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+

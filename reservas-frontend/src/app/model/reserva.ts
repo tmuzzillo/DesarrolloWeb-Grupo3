@@ -1,13 +1,16 @@
+import { Solicitante } from "./solicitante";
+import { Espacio } from "./espacio";
+
 export class Reserva {
 
     id:number;
-    fecha:Date;
-    horaDesde:Date;
-    horaHasta:Date;
+    fecha:String;
+    horaDesde:String;
+    horaHasta:String;
     cantidadReserva:number;
     motivo:String;
-    fechaHoraReserva:Date;
-    solicitantes:number;
-    espacios:number;
+    fechaHoraReserva:String;
+    solicitantes:Solicitante;
+    espacios:Espacio;
 
 }

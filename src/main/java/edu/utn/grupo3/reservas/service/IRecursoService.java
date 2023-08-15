@@ -15,4 +15,6 @@ public interface IRecursoService {
     Recurso guardar(Recurso r);
 
     Page<Recurso> getTodosPaginado(Pageable p);
+
+    String deleteRecurso(Integer id);
 }
