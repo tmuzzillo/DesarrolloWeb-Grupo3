@@ -10,7 +10,7 @@ export class SolicitanteService {
 
   //Esta URL obtiene el listado de todos los solicitantees en el back
 
-  private baseURL = "http://192.168.0.120:8080/solicitantes";
+  private baseURL = "http://localhost:8080/solicitantes";
 
 
   //Este metodo obtiene los solicitantes

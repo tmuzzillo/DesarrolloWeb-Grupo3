@@ -38,6 +38,7 @@ export class ListaReservasComponent implements OnInit {
   horaHastaValue: Date;
   minDate: Date;
   maxDate: Date;
+  listaSol: Solicitante[] = [];
 
   cantidadReservaValue: string;
 
@@ -75,6 +76,7 @@ export class ListaReservasComponent implements OnInit {
   constructor(private reservaService: ReservaService, private solicitanteService: SolicitanteService, private espacioService: EspacioService) {
     this.getReservasDetails();
     this.getSolicitantesDetails();
+    this.getEspaciosDetails();
 
     const currentYear = new Date().getFullYear();
     const currentMonth = new Date().getMonth();
@@ -90,6 +92,7 @@ export class ListaReservasComponent implements OnInit {
 
   ngOnInit(): void {
     this.getReservasDetails();
+    /*
     this.data = [
       { id: 1, fecha: new Date(7, 10, 2023), horaDesde: new Date(2023, 7, 10, 10, 0), horaHasta: new Date(2023, 7, 10, 12, 0), cantidadReserva: 5, motivo: 'Reunión', fechaHoraReserva: new Date(2023, 7, 10, 9, 0), solicitantes: 'Juan Pérez', espacios: 'Sala de Conferencias' },
       { id: 2, fecha: new Date(2023, 7, 11), horaDesde: new Date(2023, 7, 11, 14, 0), horaHasta: new Date(2023, 7, 11, 16, 0), cantidadReserva: 10, motivo: 'Presentación', fechaHoraReserva: new Date(2023, 7, 11, 13, 0), solicitantes: 'María López', espacios: 'Sala de Reuniones' },
@@ -102,6 +105,7 @@ export class ListaReservasComponent implements OnInit {
       { id: 9, fecha: new Date(2023, 7, 18), horaDesde: new Date(2023, 7, 18, 11, 0), horaHasta: new Date(2023, 7, 18, 13, 0), cantidadReserva: 6, motivo: 'Entrevista', fechaHoraReserva: new Date(2023, 7, 18, 10, 30), solicitantes: 'Gabriel Gutiérrez', espacios: 'Oficina 105' },
       { id: 10, fecha: new Date(2023, 7, 19), horaDesde: new Date(2023, 7, 19, 15, 0), horaHasta: new Date(2023, 7, 19, 17, 0), cantidadReserva: 12, motivo: 'Reunión', fechaHoraReserva: new Date(2023, 7, 19, 14, 0), solicitantes: 'Isabel Castro', espacios: 'Sala de Reuniones' },
     ];
+    */
   }
 
   myFilter = (d: Date | null): boolean => {
@@ -156,10 +160,12 @@ export class ListaReservasComponent implements OnInit {
     this.selected = e.target.value;
   }
 
+  
   cambiarEspacio(e) {
     console.log(e.target.value)
     this.selected = e.target.value;
   }
+  
 
   filterOnlyNumbers(event: any) {
     const input = event.target as HTMLInputElement;
@@ -187,6 +193,7 @@ export class ListaReservasComponent implements OnInit {
       (resp) => {
         console.log(resp);
         registerForm.reset();
+        this.listaSol.push(registerForm.value)
         this.getReservasDetails();
       },
       (err) => {

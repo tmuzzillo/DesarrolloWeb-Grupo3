@@ -37,6 +37,11 @@ public class ControladorRecurso {
         return this.service.guardar(r);
     }
 
+    @DeleteMapping("/deleteRecurso")
+    public void deleteSolicitante(@RequestParam Integer id) {
+        service.deleteRecurso(id);
+    }
+
     @GetMapping
     public ResponseEntity<List<Recurso>> listarRecursos(
             @RequestParam(defaultValue = "0") int page,

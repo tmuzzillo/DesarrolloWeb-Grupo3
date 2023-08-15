@@ -54,21 +54,21 @@
                         </div>
                         <div class="form-group">
                             <label for="name">Solicitante que reserva</label>
-                            <ejs-combobox [(ngModel)]="selected" (change)="cambiarSolicitante($event)" name="solictante"
+                            <select [(ngModel)]="selected" (change)="cambiarSolicitante($event)" name="solicitantes"
                                 id="solicitantes" placeholder="Seleccionar un solicitante">
                                 <option [value]="solicitante.id" *ngFor="let solicitante of solicitanteDetails">
                                     {{ solicitante.nombre }}
                                 </option>
-                            </ejs-combobox>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="name">Espacio a reservar</label>
-                            <ejs-combobox [(ngModel)]="selected" (change)="cambiarEspacio($event)" name="espacio"
+                            <select [(ngModel)]="selected" (change)="cambiarEspacio($event)" name="espacio"
                                 id="espacios" placeholder="Seleccionar un espacio">
                                 <option [value]="espacio.id" *ngFor="let espacio of espacioDetails">
                                     {{ espacio.nombre }}
                                 </option>
-                            </ejs-combobox>
+                            </select>
                         </div>
                     </form>
                 </div>
@@ -97,9 +97,7 @@
                 <e-column field='cantidadReserva' headerText='Cantidad Reserva' width=150></e-column>
                 <e-column field='motivo' headerText='Motivo' width=150></e-column>
                 <e-column field='fechaHoraReserva' headerText='FechaHora Reserva' width=150>
-                    <ng-template #template let-data>
-                        {{ formatDate(data.fechaHoraReserva) }}
-                    </ng-template>
+                    
                 </e-column>
                 <e-column field='solicitantes.nombre' headerText='Solicitante' width=150></e-column>
                 <e-column field='espacios.nombre' headerText='Espacio' width=150></e-column>

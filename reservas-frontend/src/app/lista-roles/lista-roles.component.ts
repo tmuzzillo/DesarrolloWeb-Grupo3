@@ -130,6 +130,7 @@ export class ListaRolesComponent implements OnInit {
         this.rolService.updateRoles(this.rolToUpdate).subscribe(
           (resp) => {
             console.log(resp);
+            window.location.reload();
           },
           (err) => {
             console.log(err);

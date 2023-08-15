@@ -9,7 +9,7 @@ export class ReservaService {
   constructor(private http: HttpClient) { }
 
   //Esta URL obtiene el listado de todos los reservaes en el back
-  private baseURL = "http://192.168.0.120:8080/reservas";
+  private baseURL = "http://localhost:8080/reservas";
 
   //Este metodo obtiene los reservas
   getReservas(){
@@ -19,25 +19,25 @@ export class ReservaService {
 
   //Este metodo registra un reserva
   public registerReserva(reservaData: any){
-    return this.http.post(this.baseURL + '/registerReserva', reservaData);
+    return this.http.post(this.baseURL, reservaData);
   }
 
   //Este metodo actualiza un reserva
   updateReservas(reserva:any){
 
-console.log(reserva)
+    console.log(reserva)    
 
-    return this.http.put(this.baseURL + '/updateReservas', reserva);
+    return this.http.put(this.baseURL+ "/" + reserva.id, reserva);
   }
   
   //Este metodo elimina un reserva
   deleteReserva(id:number){
-    return this.http.delete(this.baseURL + '/deleteReserva?id=' + id);
+    return this.http.delete(this.baseURL + "/" + id);
   }
 
   //Este metodo obtiene o busca un reserva
   getReservaById(id:number){
-    return this.http.get(this.baseURL+"/reservas"+id);
+    return this.http.get(this.baseURL+"/"+id);
   }
 
 }

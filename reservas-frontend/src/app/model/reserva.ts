@@ -1,12 +1,12 @@
 export class Reserva {
 
     id:number;
-    fecha:Date;
-    horaDesde:Date;
-    horaHasta:Date;
+    fecha:String;
+    horaDesde:String;
+    horaHasta:String;
     cantidadReserva:number;
     motivo:String;
-    fechaHoraReserva:Date;
+    fechaHoraReserva:String;
     solicitantes:number;
     espacios:number;
 

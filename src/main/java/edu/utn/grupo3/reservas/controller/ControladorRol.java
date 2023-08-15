@@ -17,7 +17,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/roles")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:4200/")
 public class ControladorRol {
     @Autowired
     private RolService rolService;

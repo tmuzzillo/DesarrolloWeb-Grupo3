@@ -42,5 +42,11 @@ public class RecursoService implements IRecursoService{
         return repositorio.findAll(p);
     }
 
+    @Override
+    public String deleteRecurso(Integer id) {
+        repositorio.deleteById(id);
+        return "Recurso eliminado con exito";
+    }
+
 
 }

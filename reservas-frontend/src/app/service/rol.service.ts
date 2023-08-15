@@ -14,12 +14,12 @@ export class RolService {
 
   private baseURL = "http://localhost:8080/roles";
 
-/*
+
   //Este metodo obtiene los roles
   getRoles(){
     return this.http.get(this.baseURL+"/todos");
   }
-  */
+  
 
   // Este método obtiene los recursos paginados
   getRolesPaginados(page: number, size: number): Observable<HttpResponse<Rol[]>> {
