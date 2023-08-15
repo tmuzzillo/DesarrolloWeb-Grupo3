@@ -9,7 +9,7 @@ export class ReservaService {
   constructor(private http: HttpClient) { }
 
   //Esta URL obtiene el listado de todos los reservaes en el back
-  private baseURL = "http://192.168.0.120:8080/reservas";
+  private baseURL = "http://localhost:8080/reservas";
 
   //Este metodo obtiene los reservas
   getReservas(){

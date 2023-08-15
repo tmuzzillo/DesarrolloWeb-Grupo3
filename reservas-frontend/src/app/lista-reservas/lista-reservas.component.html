@@ -84,12 +84,12 @@
 <div class="container">
     <div class="mt-5" style="align-items:center">
         <ejs-grid [dataSource]='data' [allowPaging]="true" [allowSorting]="true" [allowFiltering]="true"
-                [pageSettings]='pageSettings'  [editSettings]='editSettings' [toolbar]='toolbar' (actionBegin)='actionBegin($event)' (actionComplete)='actionComplete($event)'>
+            [pageSettings]='pageSettings' [editSettings]='editSettings' [toolbar]='toolbar'
+            (actionBegin)='actionBegin($event)' (actionComplete)='actionComplete($event)'>
             <e-columns>
                 <e-column field='id' headerText='ID' textAlign='Right' width=90 isPrimaryKey='true'></e-column>
                 <e-column field='fecha' headerText='Fecha' width=120 format="dd/MM/yyyy">
-                    <ejs-datepicker [strictMode]="true" 
-                                [min]="minDate" [(value)]="orderData.fecha">
+                    <ejs-datepicker [strictMode]="true" [min]="minDate" [(value)]="orderData.fecha">
                     </ejs-datepicker>
                 </e-column>
                 <e-column field='horaDesde' headerText='Hora Desde' width=120 format="HH:mm"></e-column>
@@ -105,59 +105,103 @@
                 <e-column field='espacios.nombre' headerText='Espacio' width=150></e-column>
             </e-columns>
 
-            <ng-template #editSettingsTemplate let-data>
-                <div ngForm #orderForm="ngForm">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <div class="e-float-input e-control-wrapper" [ngClass]="{'e-error': data.motivo.invalid && (data.motivo.dirty || data.motivo.touched)}">
-                                <input [(ngModel)]="data.motivo" required id="Motivo" name="Motivo" type="text" #Motivo="ngModel">
-                                <span class="e-float-line"></span>
-                                <label class="e-float-text e-label-top" for="Motivo">Motivo</label>
-                            </div>
-                            <div id="MotivoError" *ngIf='data.motivo.invalid && (data.motivo.dirty || data.motivo.touched)'>
-                                <label class="e-error" id="Motivo-info" style="display: block;">*Motivo is required</label>
+            
+            <ng-template #editSettingsTemplate let-data class="card mt-3" style="padding: 20px">
+                <form #updateForm="ngForm" (ngSubmit)="updateReserva()">
+
+                    <div class="form-group" #fecha>
+                        <div class="e-control-wrapper"
+                            [ngClass]="{'e-error': data.fecha.invalid && (data.fecha.dirty || data.fecha.touched)}">
+                            <label for="name">Fecha :</label>
+                            <ejs-datepicker #fechaReserva [(ngModel)]="reservaToUpdate.fecha" [strictMode]="true"
+                                format="dd/MM/yyyy" [isMultiSelection]="false" [cssClass]="null"
+                                [min]="minDate"></ejs-datepicker>
+                        </div>
+                        <div id="FechaError" *ngIf='data.fecha.invalid && (data.fecha.dirty || data.fecha.touched)'>
+                            <label class="e-error" id="Fecha-info" style="display: block;">*Fecha is
+                                required</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" #horaDesde>
+                        <div class="e-control-wrapper"
+                            [ngClass]="{'e-error': data.horaDesde.invalid && (data.horaDesde.dirty || data.horaDesde.touched)}">
+                            <label for="name">Hora Desde :</label>
+                            <ejs-timepicker #horaDesde [(ngModel)]="reservaToUpdate.horaDesde"></ejs-timepicker>
+                        </div>
+                        <div id="HoraDesdeError"
+                            *ngIf='data.horaDesde.invalid && (data.horaDesde.dirty || data.horaDesde.touched)'>
+                            <label class="e-error" id="Fecha-info" style="display: block;">*Hora desde is
+                                required</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" #horaHasta>
+                        <div class="e-control-wrapper"
+                            [ngClass]="{'e-error': data.horaHasta.invalid && (data.horaHasta.dirty || data.horaHasta.touched)}">
+                            <label for="name">Hora Hasta :</label>
+                            <ejs-timepicker #horaHasta [(ngModel)]="reservaToUpdate.horaHasta"
+                                [ngClass]="{'disabled': horaHastaValue < horaDesdeValue}"></ejs-timepicker>
+                            <div *ngIf="horaHastaValue < horaDesdeValue" class="text-danger">
+                                La hora de finalización no puede ser menor que la hora de inicio.
                             </div>
                         </div>
-                    </div>      
-                </div> 
+                        <div id="HoraHastaError"
+                            *ngIf='data.horaHasta.invalid && (data.horaHasta.dirty || data.horaHasta.touched)'>
+                            <label class="e-error" id="Fecha-info" style="display: block;">*Hora hasta is
+                                required</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" #cantidad>
+                        <div class="e-control-wrapper"
+                            [ngClass]="{'e-error': data.cantidadReserva.invalid && (data.cantidadReserva.dirty || data.cantidadReserva.touched)}">
+                            <label for="name">Cantidad de Reserva :</label>
+                            <ejs-textbox #cantidadReserva [(ngModel)]="reservaToUpdate.motivo" name="cantidadReserva"
+                                id="cantidadReserva" inputmode="numeric" (input)="filterOnlyNumbers($event)"
+                                (keypress)="preventNonNumericInput($event)"></ejs-textbox>
+                        </div>
+                        <div id="CantidadError"
+                            *ngIf='data.cantidadReserva.invalid && (data.cantidadReserva.dirty || data.cantidadReserva.touched)'>
+                            <label class="e-error" id="Cantidad-info" style="display: block;">*Motivo is
+                                required</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" #motivo>
+                        <div class="e-control-wrapper"
+                            [ngClass]="{'e-error': data.motivo.invalid && (data.motivo.dirty || data.motivo.touched)}">
+                            <label for="name">Motivo de reserva:</label>
+                            <ejs-textbox #motivoReserva [(ngModel)]="reservaToUpdate.motivo" name="motivoReserva"
+                                id="motivoReserva"></ejs-textbox>
+                        </div>
+                        <div id="MotivoError" *ngIf='data.motivo.invalid && (data.motivo.dirty || data.motivo.touched)'>
+                            <label class="e-error" id="Motivo-info" style="display: block;">*Motivo is
+                                required</label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" #solicitante>
+                        <div class="e-control-wrapper"
+                            [ngClass]="{'e-error': data.solicitantes.invalid && (data.solicitantes.dirty || data.solicitantes.touched)}">
+                            <label for="name">Solicitante que reserva:</label>
+                            <ejs-combobox #solicitantes [(ngModel)]="reservaToUpdate.solicitantes" name="solicitantes"
+                                id="solicitantes" (change)="cambiarSolicitante($event)">
+
+                                 [(ngModel)]="selected" (change)="cambiarSolicitante($event)" name="solictante"
+                                id="solicitantes" placeholder="Seleccionar un solicitante">
+                                <option [value]="solicitante.id" *ngFor="let solicitante of solicitanteDetails">
+                                    {{ solicitante.nombre }}
+                                </option>
+                            </ejs-combobox>
+                        </div>
+                        <div id="MotivoError" *ngIf='data.motivo.invalid && (data.motivo.dirty || data.motivo.touched)'>
+                            <label class="e-error" id="Motivo-info" style="display: block;">*Motivo is
+                                required</label>
+                        </div>
+                    </div>
+                </form>
             </ng-template>
         </ejs-grid>
-
-        <!-- 
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>fecha</th>
-                    <th>Hora Desde</th>
-                    <th>Hora Hasta</th>
-                    <th>Cantidad Reserva</th>
-                    <th>Motivo</th>
-                    <th>FechaHora Reserva</th>
-                    <th>Solicitante</th>
-                    <th>Espacio</th>
-                    <th>Editar</th>
-                    <th>Eliminar</th>
-                </tr>
-            </thead>
-            <tbody class="tbody">
-                <tr *ngFor="let reserva of reservaDetails">
-                    <td>{{reserva.id}}</td>
-                    <td>{{reserva.fecha}}</td>
-                    <td>{{reserva.horaDesde}}</td>
-                    <td>{{reserva.horaHasta}}</td>
-                    <td>{{reserva.cantidadReserva}}</td>
-                    <td>{{reserva.motivo}}</td>
-                    <td>{{reserva.fechaHoraReserva}}</td>
-                    <td>{{reserva.solicitantes.nombre}}</td>
-                    <td>{{reserva.espacios.nombre}}</td>
-                    <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                            (click)="edit(reserva)">Edit</button></td>
-                    <td><button type="button" class="btn btn-danger" (click)="deleteReserva(reserva)">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        -->
     </div>
 </div>

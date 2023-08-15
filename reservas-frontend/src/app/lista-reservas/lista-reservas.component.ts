@@ -85,7 +85,7 @@ export class ListaReservasComponent implements OnInit {
     this.pageSettings = { pageSize: 6 };
 
     this.editSettings = { allowEditing: true, allowAdding: true, allowDeleting: true, mode: 'Dialog'};
-    this.toolbar = ['Edit', 'Delete', 'Update', 'Cancel'];
+    this.toolbar = ['Edit', 'Delete'];
   }
 
   ngOnInit(): void {
@@ -133,7 +133,7 @@ export class ListaReservasComponent implements OnInit {
       (args.form as any).ej2_instances[0].rules = {};
       // Set initail Focus
       if (args.requestType === 'beginEdit') {
-        (args.form?.elements.namedItem('CustomerID') as HTMLInputElement).focus();
+        (args.form?.elements.namedItem('id') as HTMLInputElement).focus();
       }
     }
   }
