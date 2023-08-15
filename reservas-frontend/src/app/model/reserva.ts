@@ -1,3 +1,6 @@
+import { Solicitante } from "./solicitante";
+import { Espacio } from "./espacio";
+
 export class Reserva {
 
     id:number;
@@ -7,7 +10,7 @@ export class Reserva {
     cantidadReserva:number;
     motivo:String;
     fechaHoraReserva:String;
-    solicitantes:number;
-    espacios:number;
+    solicitantes:Solicitante;
+    espacios:Espacio;
 
 }

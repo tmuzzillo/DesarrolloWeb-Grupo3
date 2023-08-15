@@ -30,7 +30,9 @@ export class ListaReservasComponent implements OnInit {
 
   title = 'reserva dashboard';
 
-  selected: string = '';
+  selectedSolicitante: string = '';
+
+  selectedEspacio: string = '';
 
   time = '6:00 am';
   dateValue: Date;
@@ -157,13 +159,13 @@ export class ListaReservasComponent implements OnInit {
 
   cambiarSolicitante(e) {
     console.log(e.target.value)
-    this.selected = e.target.value;
+    this.selectedSolicitante = e.target.value;
   }
 
   
   cambiarEspacio(e) {
     console.log(e.target.value)
-    this.selected = e.target.value;
+    this.selectedEspacio = e.target.value;
   }
   
 
@@ -207,6 +209,7 @@ export class ListaReservasComponent implements OnInit {
       (resp: any) => {
         if (Array.isArray(resp)) {
           this.data = resp.map((reserva: any) => {
+            console.log(this.data)
             return {
               id: reserva.id,
               fecha: reserva.fecha,
@@ -218,6 +221,7 @@ export class ListaReservasComponent implements OnInit {
               solicitantes: reserva.solicitantes.nombre,
               espacios: reserva.espacios.nombre
             };
+            
           });
         } else {
           console.error('Invalid response format: Expected an array.');

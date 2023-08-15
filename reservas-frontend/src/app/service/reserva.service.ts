@@ -19,6 +19,7 @@ export class ReservaService {
 
   //Este metodo registra un reserva
   public registerReserva(reservaData: any){
+    console.log('Reserva:', reservaData)
     return this.http.post(this.baseURL, reservaData);
   }
 
