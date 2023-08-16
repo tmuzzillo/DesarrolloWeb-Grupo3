@@ -3,6 +3,7 @@ package edu.utn.grupo3.reservas.service;
 import edu.utn.grupo3.reservas.exceptions.ReservaConflictException;
 import edu.utn.grupo3.reservas.model.Reserva;
 import edu.utn.grupo3.reservas.model.Solicitante;
+import edu.utn.grupo3.reservas.model.view.ReservaDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -13,7 +14,7 @@ public interface IReservaService {
 
     List<Reserva> getTodos();
 
-    Reserva guardar(Reserva e) throws ReservaConflictException;
+    Reserva guardar(ReservaDto e) throws ReservaConflictException;
 
     Reserva actualizar(Reserva e);
 

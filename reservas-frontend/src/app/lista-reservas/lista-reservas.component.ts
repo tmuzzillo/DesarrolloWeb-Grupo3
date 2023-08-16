@@ -24,7 +24,7 @@ export class ListaReservasComponent implements OnInit {
   public data: Object[] = [];
   public orderData: Reserva = new Reserva();
   public pageSettings: PageSettingsModel;
-  public editSettings?: EditSettingsModel;
+  public editSettings: EditSettingsModel;
   public toolbar?: ToolbarItems[];
   @ViewChild('orderForm') public orderForm?: FormGroup;
 
@@ -63,6 +63,19 @@ export class ListaReservasComponent implements OnInit {
     roles: "",
   }
 
+reservaCreate = {
+  id:0,
+  fecha: "",
+   horaDesde: "",
+horaHasta :"",
+  cantidadReserva:1,
+ motivo:"",
+ fechaHoraReserva:"",
+ solicitante:"",
+ espacio:""
+
+  }
+
   reservaToUpdate = {
     id: "",
     fecha: "",
@@ -71,8 +84,8 @@ export class ListaReservasComponent implements OnInit {
     cantidadReserva: "",
     motivo: "",
     fechaHoraReserva: "",
-    solicitantes: "",
-    espacios: "",
+    solicitante: "",
+    espacio: "",
   }
 
   constructor(private reservaService: ReservaService, private solicitanteService: SolicitanteService, private espacioService: EspacioService) {
@@ -93,8 +106,8 @@ export class ListaReservasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //this.getReservasDetails();
-    
+    this.getReservasDetails();
+/*    
     this.data = [
       { id: 1, fecha: new Date(7, 10, 2023), horaDesde: new Date(2023, 7, 10, 10, 0), horaHasta: new Date(2023, 7, 10, 12, 0), cantidadReserva: 5, motivo: 'Reunión', fechaHoraReserva: new Date(2023, 7, 10, 9, 0), solicitantes: 'Juan Pérez', espacios: 'Sala de Conferencias' },
       { id: 2, fecha: new Date(2023, 7, 11), horaDesde: new Date(2023, 7, 11, 14, 0), horaHasta: new Date(2023, 7, 11, 16, 0), cantidadReserva: 10, motivo: 'Presentación', fechaHoraReserva: new Date(2023, 7, 11, 13, 0), solicitantes: 'María López', espacios: 'Sala de Reuniones' },
@@ -107,7 +120,7 @@ export class ListaReservasComponent implements OnInit {
       { id: 9, fecha: new Date(2023, 7, 18), horaDesde: new Date(2023, 7, 18, 11, 0), horaHasta: new Date(2023, 7, 18, 13, 0), cantidadReserva: 6, motivo: 'Entrevista', fechaHoraReserva: new Date(2023, 7, 18, 10, 30), solicitantes: 'Gabriel Gutiérrez', espacios: 'Oficina 105' },
       { id: 10, fecha: new Date(2023, 7, 19), horaDesde: new Date(2023, 7, 19, 15, 0), horaHasta: new Date(2023, 7, 19, 17, 0), cantidadReserva: 12, motivo: 'Reunión', fechaHoraReserva: new Date(2023, 7, 19, 14, 0), solicitantes: 'Isabel Castro', espacios: 'Sala de Reuniones' },
     ];
-    
+  */  
   }
 
   myFilter = (d: Date | null): boolean => {
@@ -190,8 +203,17 @@ export class ListaReservasComponent implements OnInit {
       Swal.fire('Error', 'La hora de finalización no puede ser menor que la hora de inicio', 'error');
       return; // No se registra la reserva si la validación falla
     }
-
-    this.reservaService.registerReserva(registerForm.value).subscribe(
+    registerForm.value.horaDesde=this.horaDesdeValue;
+    registerForm.value.horaHasta=this.horaHastaValue;
+    this.reservaCreate.fecha=this.dateValue.toISOString()
+    this.reservaCreate.horaDesde=this.horaDesdeValue.toISOString();
+    this.reservaCreate.horaHasta=this.horaHastaValue.toISOString();
+    this.reservaCreate.cantidadReserva=registerForm.value.cantidadReserva;
+    this.reservaCreate.motivo=registerForm.value.motivoReserva;
+    this.reservaCreate.solicitante=this.selectedSolicitante;
+    this.reservaCreate.espacio=this.selectedEspacio;
+    this.reservaCreate.fechaHoraReserva=this.dateValue.toISOString();
+    this.reservaService.registerReserva(this.reservaCreate).subscribe(
       (resp) => {
         console.log(resp);
         registerForm.reset();
@@ -207,17 +229,19 @@ export class ListaReservasComponent implements OnInit {
   getReservasDetails() {
     this.reservaService.getReservas().subscribe(
       (resp: any) => {
+        console.log(resp)
         if (Array.isArray(resp)) {
+          console.log(resp)
           this.data = resp.map((reserva: any) => {
-            console.log(this.data)
+            console.log(reserva)
             return {
               id: reserva.id,
-              fecha: reserva.fecha,
-              horaDesde: reserva.horaDesde,
-              horaHasta: reserva.horaHasta,
+              fecha: new Date(reserva.fecha),
+              horaDesde: new Date(reserva.horaDesde),
+              horaHasta: new Date(reserva.horaHasta),
               cantidadReserva: reserva.cantidadReserva,
               motivo: reserva.motivo,
-              fechaHoraReserva: reserva.fechaHoraReserva,
+              fechaHoraReserva: new Date(reserva.fechaHoraReserva),
               solicitantes: reserva.solicitantes.nombre,
               espacios: reserva.espacios.nombre
             };
@@ -230,7 +254,8 @@ export class ListaReservasComponent implements OnInit {
       (err) => {
         console.log(err);
       }
-    );
+      );
+      console.log(this.data)
   }
 
 
@@ -291,29 +316,33 @@ export class ListaReservasComponent implements OnInit {
     this.reservaToUpdate = reserva;
   }
 
-  updateReserva() {
-    Swal.fire({
-      title: 'Do you want to save the changes?',
-      showDenyButton: true,
-      showCancelButton: true,
-      confirmButtonText: 'Save',
-      denyButtonText: `Don't save`,
-    }).then((result) => {
-      /* Read more about isConfirmed, isDenied below */
-      if (result.isConfirmed) {
-        this.reservaService.updateReservas(this.reservaToUpdate).subscribe(
-          (resp) => {
-            console.log(resp);
-          },
-          (err) => {
-            console.log(err);
-          }
-        );
-        Swal.fire('Saved!', '', 'success')
-      } else if (result.isDenied) {
-        Swal.fire('Changes are not saved', '', 'info')
+  updateReserva(registerForm: NgForm) {
+    console.log("update")
+    if (this.horaHastaValue < this.horaDesdeValue) {
+      Swal.fire('Error', 'La hora de finalización no puede ser menor que la hora de inicio', 'error');
+      return; // No se registra la reserva si la validación falla
+    }
+    registerForm.value.horaDesde=this.horaDesdeValue;
+    registerForm.value.horaHasta=this.horaHastaValue;
+    this.reservaCreate.fecha=this.dateValue.toISOString()
+    this.reservaCreate.horaDesde=this.horaDesdeValue.toISOString();
+    this.reservaCreate.horaHasta=this.horaHastaValue.toISOString();
+    this.reservaCreate.cantidadReserva=registerForm.value.cantidadReserva;
+    this.reservaCreate.motivo=registerForm.value.motivoReserva;
+    this.reservaCreate.solicitante=this.selectedSolicitante;
+    this.reservaCreate.espacio=this.selectedEspacio;
+    this.reservaCreate.fechaHoraReserva=this.dateValue.toISOString();
+    this.reservaService.registerReserva(this.reservaCreate).subscribe(
+      (resp) => {
+        console.log(resp);
+        registerForm.reset();
+        this.listaSol.push(registerForm.value)
+        this.getReservasDetails();
+      },
+      (err) => {
+        console.log(err);
       }
-    })
+    )
   }
 
 }

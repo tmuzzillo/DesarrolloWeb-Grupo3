@@ -4,6 +4,7 @@ import edu.utn.grupo3.reservas.exceptions.ReservaConflictException;
 import edu.utn.grupo3.reservas.model.Recurso;
 import edu.utn.grupo3.reservas.model.Reserva;
 import edu.utn.grupo3.reservas.model.Solicitante;
+import edu.utn.grupo3.reservas.model.view.ReservaDto;
 import edu.utn.grupo3.reservas.service.IReservaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -35,7 +36,7 @@ public class ControladorReserva {
     }
 
     @PostMapping()
-    public Reserva guardar(@RequestBody Reserva r) throws ReservaConflictException {
+    public Reserva guardar(@RequestBody ReservaDto r) throws ReservaConflictException {
          return this.service.guardar(r);
     }
 

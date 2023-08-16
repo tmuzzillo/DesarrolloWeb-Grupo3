@@ -1,13 +1,12 @@
 package edu.utn.grupo3.reservas.service;
 
 import edu.utn.grupo3.reservas.model.Reserva;
-import edu.utn.grupo3.reservas.model.view.ReservaDateDto;
+import edu.utn.grupo3.reservas.model.view.ReservaDto;
 import edu.utn.grupo3.reservas.persistence.RepositorioReserva;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +33,9 @@ public class ValidationService {
             return true;
         }
 
-        List<ReservaDateDto> reservasExistentesDate = parseHoras(reservasExistente);
+        List<ReservaDto> reservasExistentesDate = parseHoras(reservasExistente);
 
-        for (ReservaDateDto reservaExistente : reservasExistentesDate) {
+        for (ReservaDto reservaExistente : reservasExistentesDate) {
 
             if (horaDesdeDate.isBefore(reservaExistente.getHoraHasta())
                     && horaHastaDate.isAfter(reservaExistente.getHoraDesde())) {
@@ -49,8 +48,8 @@ public class ValidationService {
         return true;
     }
 
-    public static List<ReservaDateDto> parseHoras(List<Reserva> reserva){
-        List<ReservaDateDto> reservaDateDto = new ArrayList<ReservaDateDto>();
+    public static List<ReservaDto> parseHoras(List<Reserva> reserva){
+        List<ReservaDto> reservaDateDto = new ArrayList<ReservaDto>();
         //for every reserva in the list of reservas parse the horaDesde and horaHasta to Date and return a ReservaDateDto
         for (Reserva reserva1 : reserva) {
             reservaDateDto.add(parseHora(reserva1));
@@ -58,8 +57,8 @@ public class ValidationService {
         return reservaDateDto;
     }
 
-    public static ReservaDateDto parseHora(Reserva reserva){
-        ReservaDateDto reservaDateDto = new ReservaDateDto();
+    public static ReservaDto parseHora(Reserva reserva){
+        ReservaDto reservaDateDto = new ReservaDto();
         reservaDateDto.setHoraDesde(LocalDateTime.parse(reserva.getHoraDesde()));
         reservaDateDto.setHoraHasta(LocalDateTime.parse(reserva.getHoraHasta()));
         return reservaDateDto;

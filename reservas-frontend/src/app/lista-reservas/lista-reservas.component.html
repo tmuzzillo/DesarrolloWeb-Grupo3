@@ -23,7 +23,7 @@
                         <div class="form-group">
                             <label for="name">Fecha :</label>
                             <ejs-datepicker [strictMode]="true" format="dd/MM/yyyy"
-                                placeholder="Ingresar la fecha de la reserva" [(ngModel)]="dateValue"
+                                placeholder="Ingresar la fecha de la reserva" #fecha [(ngModel)]="dateValue"
                                 [isMultiSelection]="false" [cssClass]="null" [min]="minDate"></ejs-datepicker>
                         </div>
                         <div class="form-group">
@@ -102,7 +102,7 @@
             </e-columns>
            
             <ng-template #editSettingsTemplate let-data>
-                <div ngForm #updateForm="ngForm" class="form-group">
+                <div ngForm #updateForm="ngForm" class="form-group" (ngSubmit)="updateReserva(updateForm)">
 
 
                         <div class="form-group" #fecha>
@@ -188,6 +188,25 @@
                                 name="solicitantes"
                                 id="solicitantes"
                                 (change)="cambiarSolicitante($event)">
+                            </ejs-combobox>
+                        </div>
+                            <div id="MotivoError" *ngIf='data.motivo.invalid && (data.motivo.dirty || data.motivo.touched)'>
+                                <label class="e-error" id="Motivo-info" style="display: block;">*Motivo is
+                                    required</label>
+                            </div>
+                        </div>
+    
+                        <div class="form-group" #espacio>
+                            <div class="e-control-wrapper"
+                            [ngClass]="{'e-error': data.espacios.invalid && (data.espacios.dirty || data.espacios.touched)}">
+                            <label for="name">Espacio que reserva:</label>
+                            <ejs-combobox #solicitantes
+                                [dataSource]="espacioDetails"
+                                [fields]="{ text: 'nombre'}"
+                                [(ngModel)]="orderData.espacios.nombre"
+                                name="espacios"
+                                id="espacios"
+                                (change)="cambiarEspacio($event)">
                             </ejs-combobox>
                         </div>
                             <div id="MotivoError" *ngIf='data.motivo.invalid && (data.motivo.dirty || data.motivo.touched)'>
