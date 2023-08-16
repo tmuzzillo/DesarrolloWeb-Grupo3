@@ -83,120 +83,119 @@
 
 <div class="container-fluid">
     <div class="mt-5" style="align-items:center">
-        <ejs-grid [dataSource]='data' [allowPaging]="true" [allowSorting]="true" [allowFiltering]="true"
+        <ejs-grid [dataSource]='data' allowPaging='true' [allowSorting]="true" [allowFiltering]="true"
             [pageSettings]='pageSettings' [editSettings]='editSettings' [toolbar]='toolbar'
             (actionBegin)='actionBegin($event)' (actionComplete)='actionComplete($event)'>
             <e-columns>
-                <e-column field='id' headerText='ID' textAlign='Right' width=90 isPrimaryKey='true'></e-column>
+                <e-column field='id' headerText='ID' textAlign='Right' width=80 [isPrimaryKey]='true'></e-column>
                 <e-column field='fecha' headerText='Fecha' width=120 format="dd/MM/yyyy">
                     <ejs-datepicker [strictMode]="true" [min]="minDate" [(value)]="orderData.fecha">
                     </ejs-datepicker>
                 </e-column>
                 <e-column field='horaDesde' headerText='Hora Desde' width=120 format="HH:mm"></e-column>
                 <e-column field='horaHasta' headerText='Hora Hasta' width=120 format="HH:mm"></e-column>
-                <e-column field='cantidadReserva' headerText='Cantidad Reserva' width=150></e-column>
+                <e-column field='cantidadReserva' headerText='Cantidad Reserva' width=100></e-column>
                 <e-column field='motivo' headerText='Motivo' width=150></e-column>
                 <e-column field='fechaHoraReserva' headerText='FechaHora Reserva' width=150></e-column>
                 <e-column field='solicitantes' headerText='Solicitante' width=150></e-column>
                 <e-column field='espacios' headerText='Espacio' width=150></e-column>
             </e-columns>
+           
+            <ng-template #editSettingsTemplate let-data>
+                <div ngForm #updateForm="ngForm" class="form-group">
 
-            
-            <ng-template #editSettingsTemplate let-data class="card mt-3" style="padding: 20px">
-                <form #updateForm="ngForm" (ngSubmit)="updateReserva()">
 
-                    <div class="form-group" #fecha>
-                        <div class="e-control-wrapper"
-                            [ngClass]="{'e-error': data.fecha.invalid && (data.fecha.dirty || data.fecha.touched)}">
-                            <label for="name">Fecha :</label>
-                            <ejs-datepicker #fechaReserva [(ngModel)]="reservaToUpdate.fecha" [strictMode]="true"
-                                format="dd/MM/yyyy" [isMultiSelection]="false" [cssClass]="null"
-                                [min]="minDate"></ejs-datepicker>
-                        </div>
-                        <div id="FechaError" *ngIf='data.fecha.invalid && (data.fecha.dirty || data.fecha.touched)'>
-                            <label class="e-error" id="Fecha-info" style="display: block;">*Fecha is
-                                required</label>
-                        </div>
-                    </div>
-
-                    <div class="form-group" #horaDesde>
-                        <div class="e-control-wrapper"
-                            [ngClass]="{'e-error': data.horaDesde.invalid && (data.horaDesde.dirty || data.horaDesde.touched)}">
-                            <label for="name">Hora Desde :</label>
-                            <ejs-timepicker #horaDesde [(ngModel)]="reservaToUpdate.horaDesde"></ejs-timepicker>
-                        </div>
-                        <div id="HoraDesdeError"
-                            *ngIf='data.horaDesde.invalid && (data.horaDesde.dirty || data.horaDesde.touched)'>
-                            <label class="e-error" id="Fecha-info" style="display: block;">*Hora desde is
-                                required</label>
-                        </div>
-                    </div>
-
-                    <div class="form-group" #horaHasta>
-                        <div class="e-control-wrapper"
-                            [ngClass]="{'e-error': data.horaHasta.invalid && (data.horaHasta.dirty || data.horaHasta.touched)}">
-                            <label for="name">Hora Hasta :</label>
-                            <ejs-timepicker #horaHasta [(ngModel)]="reservaToUpdate.horaHasta"
-                                [ngClass]="{'disabled': horaHastaValue < horaDesdeValue}"></ejs-timepicker>
-                            <div *ngIf="horaHastaValue < horaDesdeValue" class="text-danger">
-                                La hora de finalización no puede ser menor que la hora de inicio.
+                        <div class="form-group" #fecha>
+                            <div class="e-control-wrapper"
+                                [ngClass]="{'e-error': data.fecha.invalid && (data.fecha.dirty || data.fecha.touched)}">
+                                <label for="name">Fecha :</label>
+                                <ejs-datepicker #fechaReserva [(ngModel)]="orderData.fecha" [strictMode]="true"
+                                    format="dd/MM/yyyy" [isMultiSelection]="false" [cssClass]="null"
+                                    [min]="minDate"></ejs-datepicker>
+                            </div>
+                            <div id="FechaError" *ngIf='data.fecha.invalid && (data.fecha.dirty || data.fecha.touched)'>
+                                <label class="e-error" id="Fecha-info" style="display: block;">*Fecha is
+                                    required</label>
                             </div>
                         </div>
-                        <div id="HoraHastaError"
-                            *ngIf='data.horaHasta.invalid && (data.horaHasta.dirty || data.horaHasta.touched)'>
-                            <label class="e-error" id="Fecha-info" style="display: block;">*Hora hasta is
-                                required</label>
+    
+                        <div class="form-group" #horaDesde>
+                            <div class="e-control-wrapper"
+                                [ngClass]="{'e-error': data.horaDesde.invalid && (data.horaDesde.dirty || data.horaDesde.touched)}">
+                                <label for="name">Hora Desde :</label>
+                                <ejs-timepicker #horaDesde [(ngModel)]="orderData.horaDesde"></ejs-timepicker>
+                            </div>
+                            <div id="HoraDesdeError"
+                                *ngIf='data.horaDesde.invalid && (data.horaDesde.dirty || data.horaDesde.touched)'>
+                                <label class="e-error" id="Fecha-info" style="display: block;">*Hora desde is
+                                    required</label>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="form-group" #cantidad>
-                        <div class="e-control-wrapper"
-                            [ngClass]="{'e-error': data.cantidadReserva.invalid && (data.cantidadReserva.dirty || data.cantidadReserva.touched)}">
-                            <label for="name">Cantidad de Reserva :</label>
-                            <ejs-textbox #cantidadReserva [(ngModel)]="reservaToUpdate.motivo" name="cantidadReserva"
-                                id="cantidadReserva" inputmode="numeric" (input)="filterOnlyNumbers($event)"
-                                (keypress)="preventNonNumericInput($event)"></ejs-textbox>
+    
+                        <div class="form-group" #horaHasta>
+                            <div class="e-control-wrapper"
+                                [ngClass]="{'e-error': data.horaHasta.invalid && (data.horaHasta.dirty || data.horaHasta.touched)}">
+                                <label for="name">Hora Hasta :</label>
+                                <ejs-timepicker #horaHasta [(ngModel)]="orderData.horaHasta"
+                                    [ngClass]="{'disabled': horaHastaValue < horaDesdeValue}"></ejs-timepicker>
+                                <div *ngIf="horaHastaValue < horaDesdeValue" class="text-danger">
+                                    La hora de finalización no puede ser menor que la hora de inicio.
+                                </div>
+                            </div>
+                            <div id="HoraHastaError"
+                                *ngIf='data.horaHasta.invalid && (data.horaHasta.dirty || data.horaHasta.touched)'>
+                                <label class="e-error" id="Fecha-info" style="display: block;">*Hora hasta is
+                                    required</label>
+                            </div>
                         </div>
-                        <div id="CantidadError"
-                            *ngIf='data.cantidadReserva.invalid && (data.cantidadReserva.dirty || data.cantidadReserva.touched)'>
-                            <label class="e-error" id="Cantidad-info" style="display: block;">*Motivo is
-                                required</label>
+    
+                        <div class="form-group" #cantidad>
+                            <div class="e-control-wrapper"
+                                [ngClass]="{'e-error': data.cantidadReserva.invalid && (data.cantidadReserva.dirty || data.cantidadReserva.touched)}">
+                                <label for="name">Cantidad de Reserva :</label>
+                                <ejs-textbox #cantidadReserva [(ngModel)]="orderData.cantidadReserva" name="cantidadReserva"
+                                    id="cantidadReserva" inputmode="numeric" (input)="filterOnlyNumbers($event)"
+                                    (keypress)="preventNonNumericInput($event)"></ejs-textbox>
+                            </div>
+                            <div id="CantidadError"
+                                *ngIf='data.cantidadReserva.invalid && (data.cantidadReserva.dirty || data.cantidadReserva.touched)'>
+                                <label class="e-error" id="Cantidad-info" style="display: block;">*Motivo is
+                                    required</label>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="form-group" #motivo>
-                        <div class="e-control-wrapper"
-                            [ngClass]="{'e-error': data.motivo.invalid && (data.motivo.dirty || data.motivo.touched)}">
-                            <label for="name">Motivo de reserva:</label>
-                            <ejs-textbox #motivoReserva [(ngModel)]="reservaToUpdate.motivo" name="motivoReserva"
-                                id="motivoReserva"></ejs-textbox>
+    
+                        <div class="form-group" #motivo>
+                            <div class="e-control-wrapper"
+                                [ngClass]="{'e-error': data.motivo.invalid && (data.motivo.dirty || data.motivo.touched)}">
+                                <label for="name">Motivo de reserva:</label>
+                                <ejs-textbox #motivoReserva [(ngModel)]="orderData.motivo" name="motivoReserva"
+                                    id="motivoReserva"></ejs-textbox>
+                            </div>
+                            <div id="MotivoError" *ngIf='data.motivo.invalid && (data.motivo.dirty || data.motivo.touched)'>
+                                <label class="e-error" id="Motivo-info" style="display: block;">*Motivo is
+                                    required</label>
+                            </div>
                         </div>
-                        <div id="MotivoError" *ngIf='data.motivo.invalid && (data.motivo.dirty || data.motivo.touched)'>
-                            <label class="e-error" id="Motivo-info" style="display: block;">*Motivo is
-                                required</label>
-                        </div>
-                    </div>
-
-                    <div class="form-group" #solicitante>
-                        <div class="e-control-wrapper"
+    
+                        <div class="form-group" #solicitante>
+                            <div class="e-control-wrapper"
                             [ngClass]="{'e-error': data.solicitantes.invalid && (data.solicitantes.dirty || data.solicitantes.touched)}">
                             <label for="name">Solicitante que reserva:</label>
-                            <ejs-combobox #solicitantes [(ngModel)]="reservaToUpdate.solicitantes" name="solicitantes"
-                                id="solicitantes" (change)="cambiarSolicitante($event)">
-
-                                 [(ngModel)]="selected" (change)="cambiarSolicitante($event)" name="solictante"
-                                id="solicitantes" placeholder="Seleccionar un solicitante">
-                                <option [value]="solicitante.id" *ngFor="let solicitante of solicitanteDetails">
-                                    {{ solicitante.nombre }}
-                                </option>
+                            <ejs-combobox #solicitantes
+                                [dataSource]="solicitanteDetails"
+                                [fields]="{ text: 'nombre'}"
+                                [(ngModel)]="orderData.solicitantes.nombre"
+                                name="solicitantes"
+                                id="solicitantes"
+                                (change)="cambiarSolicitante($event)">
                             </ejs-combobox>
                         </div>
-                        <div id="MotivoError" *ngIf='data.motivo.invalid && (data.motivo.dirty || data.motivo.touched)'>
-                            <label class="e-error" id="Motivo-info" style="display: block;">*Motivo is
-                                required</label>
+                            <div id="MotivoError" *ngIf='data.motivo.invalid && (data.motivo.dirty || data.motivo.touched)'>
+                                <label class="e-error" id="Motivo-info" style="display: block;">*Motivo is
+                                    required</label>
+                            </div>
                         </div>
-                    </div>
-                </form>
+                </div>
             </ng-template>
         </ejs-grid>
     </div>

@@ -93,8 +93,8 @@ export class ListaReservasComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getReservasDetails();
-    /*
+    //this.getReservasDetails();
+    
     this.data = [
       { id: 1, fecha: new Date(7, 10, 2023), horaDesde: new Date(2023, 7, 10, 10, 0), horaHasta: new Date(2023, 7, 10, 12, 0), cantidadReserva: 5, motivo: 'Reunión', fechaHoraReserva: new Date(2023, 7, 10, 9, 0), solicitantes: 'Juan Pérez', espacios: 'Sala de Conferencias' },
       { id: 2, fecha: new Date(2023, 7, 11), horaDesde: new Date(2023, 7, 11, 14, 0), horaHasta: new Date(2023, 7, 11, 16, 0), cantidadReserva: 10, motivo: 'Presentación', fechaHoraReserva: new Date(2023, 7, 11, 13, 0), solicitantes: 'María López', espacios: 'Sala de Reuniones' },
@@ -107,7 +107,7 @@ export class ListaReservasComponent implements OnInit {
       { id: 9, fecha: new Date(2023, 7, 18), horaDesde: new Date(2023, 7, 18, 11, 0), horaHasta: new Date(2023, 7, 18, 13, 0), cantidadReserva: 6, motivo: 'Entrevista', fechaHoraReserva: new Date(2023, 7, 18, 10, 30), solicitantes: 'Gabriel Gutiérrez', espacios: 'Oficina 105' },
       { id: 10, fecha: new Date(2023, 7, 19), horaDesde: new Date(2023, 7, 19, 15, 0), horaHasta: new Date(2023, 7, 19, 17, 0), cantidadReserva: 12, motivo: 'Reunión', fechaHoraReserva: new Date(2023, 7, 19, 14, 0), solicitantes: 'Isabel Castro', espacios: 'Sala de Reuniones' },
     ];
-    */
+    
   }
 
   myFilter = (d: Date | null): boolean => {
@@ -139,7 +139,7 @@ export class ListaReservasComponent implements OnInit {
       (args.form as any).ej2_instances[0].rules = {};
       // Set initail Focus
       if (args.requestType === 'beginEdit') {
-        (args.form?.elements.namedItem('id') as HTMLInputElement).focus();
+        (args.form?.elements.namedItem('motivo') as HTMLInputElement).focus();
       }
     }
   }
