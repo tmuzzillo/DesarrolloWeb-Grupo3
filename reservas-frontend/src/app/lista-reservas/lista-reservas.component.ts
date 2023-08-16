@@ -12,7 +12,8 @@ import { DialogEditEventArgs, PageSettingsModel, SaveEventArgs } from '@syncfusi
 import { EditSettingsModel, ToolbarItems } from '@syncfusion/ej2-angular-grids';
 import { Reserva } from '../model/reserva';
 import { DatePipe } from '@angular/common';
-
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-lista-reservas',
@@ -21,11 +22,11 @@ import { DatePipe } from '@angular/common';
 })
 
 export class ListaReservasComponent implements OnInit {
-
   public data: Object[] = [];
   public orderData: Reserva = new Reserva();
   public pageSettings: PageSettingsModel;
   public editSettings: EditSettingsModel;
+
   public toolbar?: ToolbarItems[];
   @ViewChild('orderForm') public orderForm?: FormGroup;
 
@@ -158,7 +159,10 @@ horaHasta :new Date(),
       if (args.requestType === 'beginEdit') {
         (args.form?.elements.namedItem('motivo') as HTMLInputElement).focus();
       }
+    }else if (args.requestType === 'delete') {
+      this.deleteReserva(args); // Llamada al método de eliminación
     }
+    
   }
 
 
@@ -167,12 +171,17 @@ horaHasta :new Date(),
   }
 
   formatHour(dateTime: Date): string {
+    const milisegundosParaRestar = 3 * 60 * 60 * 1000;
+    const valorOriginalEnMilisegundos = dateTime.getTime();
+    const fechaResultado = new Date(valorOriginalEnMilisegundos - milisegundosParaRestar);
+  
     const options: Intl.DateTimeFormatOptions = {
       hour: '2-digit',
       minute: '2-digit',
-      hour12: false // Para usar el formato de 24 horas
+      hour12: true
     };
-    return new Intl.DateTimeFormat('es-AR', options).format(dateTime);
+  
+    return new Intl.DateTimeFormat('es-AR', options).format(fechaResultado);
   }
 
   cambiarSolicitante(e) {
@@ -217,18 +226,38 @@ horaHasta :new Date(),
     this.reservaCreate.motivo=registerForm.value.motivoReserva;
     this.reservaCreate.solicitante=this.selectedSolicitante;
     this.reservaCreate.espacio=this.selectedEspacio;
-    this.reservaCreate.fechaHoraReserva=this.dateValue;
+    this.reservaCreate.fechaHoraReserva=new Date()
     this.reservaService.registerReserva(this.reservaCreate).subscribe(
-      (resp) => {
-        console.log(resp);
+      (response: any) => {
+        console.log(response.toString());
         registerForm.reset();
+        this.listaSol.push(registerForm.value);
+        this.getReservasDetails();
+      },
+      (error: HttpErrorResponse) => {
+        Swal.fire('Error', "La fecha de la reserva no es valida, tiene conflictos con otras reservas", 'error');
+        console.log(error);
+    
+        // El manejo del error ya se realizó en la función registerReserva
+        // No es necesario hacerlo aquí nuevamente
+      }
+    );
+      /*
+      (resp: HttpResponse) => {
+        const errorMessage = resp.error.message;
+        if(resp.toString().includes("status:409")){
+          Swal.fire('Error', "La fecha de la reserva no es valida, tiene conflictos con otras reservas", 'error');
+          return;
+        }
+        console.log(resp.toString())
+//        registerForm.reset();
         this.listaSol.push(registerForm.value)
         this.getReservasDetails();
       },
       (err) => {
         console.log(err);
-      }
-    );
+      }*/
+    
   }
 
   getReservasDetails() {
@@ -284,6 +313,7 @@ horaHasta :new Date(),
   }
 
   deleteReserva(reserva: any) {
+    console.log(reserva.data[0].id)
     Swal.fire({
       title: 'Are you sure?',
       text: "You won't be able to revert this!",
@@ -294,7 +324,7 @@ horaHasta :new Date(),
       confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.reservaService.deleteReserva(reserva.id).subscribe(
+        this.reservaService.deleteReserva(reserva.data[0].id).subscribe(
           (resp) => {
             console.log(resp);
             this.getReservasDetails();

@@ -1,12 +1,14 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Reserva } from '../model/reserva';
-
+import { Component } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
 export class ReservaService {
-
+  errorMessage: string = '';
   constructor(private http: HttpClient) { }
 
   //Esta URL obtiene el listado de todos los reservaes en el back
@@ -19,9 +21,22 @@ export class ReservaService {
   }
 
   //Este metodo registra un reserva
-  public registerReserva(reservaData: any){
-    console.log('Reserva:', reservaData)
-    return this.http.post(this.baseURL, reservaData);
+  //public registerReserva(reservaData: any){
+//    return this.http.post(this.baseURL, reservaData);
+ // }
+  
+  public registerReserva(reservaData: any): Observable<any> {
+    return this.http.post(this.baseURL, reservaData)
+      .pipe(
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 409) {
+            this.errorMessage = error.error;
+          } else {
+            this.errorMessage = 'Ocurrió un error en la solicitud';
+          }
+          return throwError(error);
+        })
+      );
   }
 
   //Este metodo actualiza un reserva
