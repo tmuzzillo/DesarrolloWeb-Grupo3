@@ -1,3 +1,4 @@
+import { HomeComponent } from './home/home.component';
 import { ListaEspaciosComponent } from './lista-espacios/lista-espacios.component';
 import { ListaRecursosComponent } from './lista-recursos/lista-recursos.component';
 import { ListaReservasComponent } from './lista-reservas/lista-reservas.component';
@@ -14,6 +15,7 @@ const routes: Routes = [
   {path: 'recursos',component:ListaRecursosComponent},
   {path: 'espacios',component:ListaEspaciosComponent},
   {path: 'reservas',component:ListaReservasComponent},
+  {path: 'home',component:HomeComponent},
   {path: ' ',redirectTo:'roles',pathMatch:'full'}
 ];
 

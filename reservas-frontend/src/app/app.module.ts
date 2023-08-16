@@ -30,6 +30,7 @@ import { DropDownListModule, ComboBoxModule, AutoCompleteModule, MultiSelectModu
 import { ButtonModule, CheckBoxModule, RadioButtonModule, SwitchModule, ChipListModule, FabModule, SpeedDialModule } from '@syncfusion/ej2-angular-buttons';
 import { GridModule, PagerModule} from '@syncfusion/ej2-angular-grids';
 import { FilterService, PageService, SortService, GroupService, EditService, ToolbarService } from '@syncfusion/ej2-angular-grids';
+import { HomeComponent } from './home/home.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { FilterService, PageService, SortService, GroupService, EditService, Too
     ListaSolicitantesComponent,
     ListaRecursosComponent,
     ListaEspaciosComponent,
-    ListaReservasComponent
+    ListaReservasComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

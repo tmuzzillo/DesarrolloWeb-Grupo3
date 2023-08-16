@@ -4,9 +4,15 @@
       <mat-icon>menu</mat-icon>
     </button>
     <span>Gestion de Reservas</span>
+    <div class="nav-options">
+      <a routerLink="home" routerLinkActive="active" class="nav-option">Home</a>
+      <a routerLink="menu" routerLinkActive="active" class="nav-option">Menu</a>
+      <a routerLink="about" routerLinkActive="active" class="nav-option">About</a>
+      <a routerLink="contact" routerLinkActive="active" class="nav-option">Contact</a>
+    </div>
   </mat-toolbar-row>
 </mat-toolbar>
-<mat-sidenav-container autosize>
+<mat-sidenav-container>
   <mat-sidenav #sidenav mode="side">
     <mat-nav-list>
       <a mat-list-item routerLink="home" routerLinkActive="active" class="nav-link">Home</a>
@@ -18,8 +24,6 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <div style="height: 88vh;">
-      <router-outlet></router-outlet>
-    </div>
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>
