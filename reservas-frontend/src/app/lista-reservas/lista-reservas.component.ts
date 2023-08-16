@@ -11,6 +11,7 @@ import { Espacio } from '../model/espacio';
 import { DialogEditEventArgs, PageSettingsModel, SaveEventArgs } from '@syncfusion/ej2-angular-grids';
 import { EditSettingsModel, ToolbarItems } from '@syncfusion/ej2-angular-grids';
 import { Reserva } from '../model/reserva';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -65,12 +66,12 @@ export class ListaReservasComponent implements OnInit {
 
 reservaCreate = {
   id:0,
-  fecha: "",
-   horaDesde: "",
-horaHasta :"",
+  fecha: new Date(),
+   horaDesde: new Date(),
+horaHasta :new Date(),
   cantidadReserva:1,
  motivo:"",
- fechaHoraReserva:"",
+ fechaHoraReserva:new Date(),
  solicitante:"",
  espacio:""
 
@@ -88,7 +89,7 @@ horaHasta :"",
     espacio: "",
   }
 
-  constructor(private reservaService: ReservaService, private solicitanteService: SolicitanteService, private espacioService: EspacioService) {
+  constructor(private reservaService: ReservaService, private solicitanteService: SolicitanteService, private espacioService: EspacioService, private datePipe: DatePipe) {
     this.getReservasDetails();
     this.getSolicitantesDetails();
     this.getEspaciosDetails();
@@ -106,6 +107,9 @@ horaHasta :"",
   }
 
   ngOnInit(): void {
+    const formattedDate = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    console.log(formattedDate);
+    
     this.getReservasDetails();
 /*    
     this.data = [
@@ -125,7 +129,7 @@ horaHasta :"",
 
   myFilter = (d: Date | null): boolean => {
     const currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0); // Asegurarse de que la hora esté a medianoche
+    currentDate.setHours(0, -3, 0, 0); // Asegurarse de que la hora esté a medianoche
     return d && d >= currentDate;
   };
 
@@ -159,10 +163,11 @@ horaHasta :"",
 
 
   formatDate(dateTime: Date): string {
+    return this.datePipe.transform(dateTime, 'dd/MM/yyyy HH:mm', '+0000');
+  }
+
+  formatHour(dateTime: Date): string {
     const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
       hour: '2-digit',
       minute: '2-digit',
       hour12: false // Para usar el formato de 24 horas
@@ -205,14 +210,14 @@ horaHasta :"",
     }
     registerForm.value.horaDesde=this.horaDesdeValue;
     registerForm.value.horaHasta=this.horaHastaValue;
-    this.reservaCreate.fecha=this.dateValue.toISOString()
-    this.reservaCreate.horaDesde=this.horaDesdeValue.toISOString();
-    this.reservaCreate.horaHasta=this.horaHastaValue.toISOString();
+    this.reservaCreate.fecha=this.dateValue;
+    this.reservaCreate.horaDesde=this.horaDesdeValue;
+    this.reservaCreate.horaHasta=this.horaHastaValue;
     this.reservaCreate.cantidadReserva=registerForm.value.cantidadReserva;
     this.reservaCreate.motivo=registerForm.value.motivoReserva;
     this.reservaCreate.solicitante=this.selectedSolicitante;
     this.reservaCreate.espacio=this.selectedEspacio;
-    this.reservaCreate.fechaHoraReserva=this.dateValue.toISOString();
+    this.reservaCreate.fechaHoraReserva=this.dateValue;
     this.reservaService.registerReserva(this.reservaCreate).subscribe(
       (resp) => {
         console.log(resp);
@@ -229,23 +234,19 @@ horaHasta :"",
   getReservasDetails() {
     this.reservaService.getReservas().subscribe(
       (resp: any) => {
-        console.log(resp)
         if (Array.isArray(resp)) {
-          console.log(resp)
           this.data = resp.map((reserva: any) => {
-            console.log(reserva)
             return {
               id: reserva.id,
-              fecha: new Date(reserva.fecha),
-              horaDesde: new Date(reserva.horaDesde),
-              horaHasta: new Date(reserva.horaHasta),
+              fecha: this.formatDate(new Date(reserva.fecha)),
+              horaDesde: this.formatHour(new Date(reserva.horaDesde)),
+              horaHasta: this.formatHour(new Date(reserva.horaHasta)),
               cantidadReserva: reserva.cantidadReserva,
               motivo: reserva.motivo,
-              fechaHoraReserva: new Date(reserva.fechaHoraReserva),
+              fechaHoraReserva: this.formatDate(new Date(reserva.fechaHoraReserva)),
               solicitantes: reserva.solicitantes.nombre,
               espacios: reserva.espacios.nombre
             };
-            
           });
         } else {
           console.error('Invalid response format: Expected an array.');
@@ -254,8 +255,7 @@ horaHasta :"",
       (err) => {
         console.log(err);
       }
-      );
-      console.log(this.data)
+    );
   }
 
 
@@ -322,16 +322,16 @@ horaHasta :"",
       Swal.fire('Error', 'La hora de finalización no puede ser menor que la hora de inicio', 'error');
       return; // No se registra la reserva si la validación falla
     }
-    registerForm.value.horaDesde=this.horaDesdeValue;
-    registerForm.value.horaHasta=this.horaHastaValue;
-    this.reservaCreate.fecha=this.dateValue.toISOString()
-    this.reservaCreate.horaDesde=this.horaDesdeValue.toISOString();
-    this.reservaCreate.horaHasta=this.horaHastaValue.toISOString();
+    //registerForm.value.horaDesde=this.horaDesdeValue;
+    //registerForm.value.horaHasta=this.horaHastaValue;
+    this.reservaCreate.fecha=this.dateValue;
+    this.reservaCreate.horaDesde=this.horaDesdeValue;
+    this.reservaCreate.horaHasta=this.horaHastaValue;
     this.reservaCreate.cantidadReserva=registerForm.value.cantidadReserva;
     this.reservaCreate.motivo=registerForm.value.motivoReserva;
     this.reservaCreate.solicitante=this.selectedSolicitante;
     this.reservaCreate.espacio=this.selectedEspacio;
-    this.reservaCreate.fechaHoraReserva=this.dateValue.toISOString();
+    this.reservaCreate.fechaHoraReserva=this.dateValue;
     this.reservaService.registerReserva(this.reservaCreate).subscribe(
       (resp) => {
         console.log(resp);

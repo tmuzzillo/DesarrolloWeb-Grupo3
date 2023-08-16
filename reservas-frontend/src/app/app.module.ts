@@ -31,6 +31,7 @@ import { ButtonModule, CheckBoxModule, RadioButtonModule, SwitchModule, ChipList
 import { GridModule, PagerModule} from '@syncfusion/ej2-angular-grids';
 import { FilterService, PageService, SortService, GroupService, EditService, ToolbarService } from '@syncfusion/ej2-angular-grids';
 import { HomeComponent } from './home/home.component';
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
@@ -43,7 +44,7 @@ import { HomeComponent } from './home/home.component';
     ListaRecursosComponent,
     ListaEspaciosComponent,
     ListaReservasComponent,
-    HomeComponent
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
@@ -69,7 +70,7 @@ import { HomeComponent } from './home/home.component';
     TextBoxModule,
     DropDownListModule, ComboBoxModule, AutoCompleteModule, MultiSelectModule, ListBoxModule, DropDownTreeModule, MentionModule, ButtonModule, CheckBoxModule, RadioButtonModule, SwitchModule, ChipListModule, FabModule, SpeedDialModule, GridModule, PagerModule,
   ],
-  providers: [FilterService, PageService, SortService, GroupService, EditService, ToolbarService],
+  providers: [FilterService, PageService, SortService, GroupService, EditService, ToolbarService, DatePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
