@@ -1,13 +1,8 @@
 package edu.utn.grupo3.reservas.model;
-import edu.utn.grupo3.reservas.model.view.ReservaDateDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-
-import java.sql.Date;
-import java.util.List;
 
 
 @Entity
